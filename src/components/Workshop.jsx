@@ -138,10 +138,10 @@ export const Workshop = () => {
                             const maxed = isStorageExp && (state.storageExpanders || 0) >= 2;
                             
                             return (
-                                <div key={item.id} className="store-item glass-card" style={{display: 'flex', alignItems: 'center', padding: '16px', gap: '16px', opacity: maxed ? 0.6 : 1}}>
-                                    <div style={{fontSize: '2.5rem'}}>{item.icon}</div>
-                                    <div style={{flex: 1}}>
-                                        <h4 style={{margin: '0 0 4px 0', fontSize: '1.1rem'}}>{item.name}</h4>
+                                <div key={item.id} className="store-item glass-card" style={{display: 'flex', alignItems: 'center', padding: '14px', gap: '12px', opacity: maxed ? 0.6 : 1}}>
+                                    <div style={{fontSize: '2.2rem', flexShrink: 0}}>{item.icon}</div>
+                                    <div style={{flex: 1, minWidth: 0}}>
+                                        <h4 style={{margin: '0 0 4px 0', fontSize: '1.05rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{item.name}</h4>
                                         <p style={{margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.4'}}>
                                             {item.desc}
                                         </p>
@@ -154,11 +154,13 @@ export const Workshop = () => {
                                             background: 'var(--bg-card)', 
                                             border: '2px solid #d4a373',
                                             color: '#d4a373',
-                                            padding: '8px 16px',
+                                            padding: '8px 14px',
                                             display: 'flex',
                                             flexDirection: 'column',
                                             alignItems: 'center',
-                                            gap: '2px'
+                                            gap: '2px',
+                                            flexShrink: 0,
+                                            minWidth: '80px'
                                         }}
                                     >
                                         <span style={{fontSize: '0.8rem', color: 'var(--text-main)'}}>{maxed ? 'Maksimal' : 'Beli'}</span>
