@@ -6,8 +6,9 @@ export const CraftingTable = () => {
     const { state, startCraft } = useGame();
 
     const anvilLevel = state.upgrades.anvil || 0;
-    const maxSlots = getMaxSlots(anvilLevel);
+    const maxSlots = getMaxSlots(anvilLevel, state.rentedSlotsExpiry);
     const hasFreeSlot = state.activeCrafts.length < maxSlots;
+    const isAdActive = state.rentedSlotsExpiry && Date.now() < state.rentedSlotsExpiry;
 
     const [now, setNow] = React.useState(Date.now());
     
@@ -73,8 +74,15 @@ export const CraftingTable = () => {
             <h2>Crafting Table</h2>
             
             <div className="active-crafts">
-                <h3>Crafting Slots</h3>
-                <div className="slots-container" style={{display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                    <h3 style={{margin: 0}}>Crafting Slots</h3>
+                    {isAdActive && (
+                        <span style={{background: 'var(--accent-green-dark)', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 900}}>
+                            🚀 2x Ad Boost Aktif
+                        </span>
+                    )}
+                </div>
+                <div className="slots-container" style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
                     {renderSlots()}
                 </div>
             </div>

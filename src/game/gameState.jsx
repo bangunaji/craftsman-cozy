@@ -6,13 +6,18 @@ const GameContext = createContext();
 
 export const useGame = () => useContext(GameContext);
 
-export const getMaxSlots = (anvilLevel) => {
-    if (anvilLevel >= 16) return 7;
-    if (anvilLevel >= 11) return 6;
-    if (anvilLevel >= 10) return 5;
-    if (anvilLevel >= 7) return 4;
-    if (anvilLevel >= 3) return 3;
-    return 2;
+export const getMaxSlots = (anvilLevel, rentedSlotsExpiry) => {
+    let base = 2;
+    if (anvilLevel >= 16) base = 7;
+    else if (anvilLevel >= 11) base = 6;
+    else if (anvilLevel >= 10) base = 5;
+    else if (anvilLevel >= 7) base = 4;
+    else if (anvilLevel >= 3) base = 3;
+
+    if (rentedSlotsExpiry && Date.now() < rentedSlotsExpiry) {
+        return base * 2;
+    }
+    return base;
 };
 
 export const GameProvider = ({ children }) => {
@@ -340,7 +345,7 @@ export const GameProvider = ({ children }) => {
 
   const startCraft = useCallback((itemId, craftTimeSec, materials) => {
     setState(s => {
-      const maxSlots = getMaxSlots(s.upgrades.anvil || 0);
+      const maxSlots = getMaxSlots(s.upgrades.anvil || 0, s.rentedSlotsExpiry);
       if (s.activeCrafts.length >= maxSlots) return s;
 
       const hasMaterials = Object.entries(materials).every(([mat, amount]) => {
@@ -503,6 +508,13 @@ export const GameProvider = ({ children }) => {
 
   const clearOfflineEarnings = useCallback(() => setOfflineEarnings(null), []);
 
+  const watchAdRental = useCallback(() => {
+    setState(s => ({
+      ...s,
+      rentedSlotsExpiry: Date.now() + 12 * 3600 * 1000
+    }));
+  }, []);
+
   const value = {
     state,
     offlineEarnings,
@@ -521,6 +533,7 @@ export const GameProvider = ({ children }) => {
     repelMonster,
     hireBodyguard,
     changeActiveArea,
+    watchAdRental,
     resetState: () => {
       localStorage.removeItem('piForgeSave');
       setState(INITIAL_STATE);

@@ -11,7 +11,7 @@ const STORE_ITEMS = [
 ];
 
 export const Workshop = () => {
-    const { state, buyUpgrade, upgradeError, clearUpgradeError, buyStoreItem } = useGame();
+    const { state, buyUpgrade, upgradeError, clearUpgradeError, buyStoreItem, watchAdRental } = useGame();
     const [activeTab, setActiveTab] = useState('upgrades');
     
     React.useEffect(() => {
@@ -21,11 +21,13 @@ export const Workshop = () => {
         }
     }, [upgradeError, clearUpgradeError]);
 
+    const isAdActive = state.rentedSlotsExpiry && Date.now() < state.rentedSlotsExpiry;
+
     return (
         <div className="workshop-area">
             <h2>Workshop & Store</h2>
             
-            <div style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
+            <div className="tab-buttons" style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
                 <button 
                     style={{flex: 1, background: activeTab === 'upgrades' ? 'var(--accent-yellow)' : 'var(--bg-card)', color: activeTab === 'upgrades' ? 'var(--text-main)' : 'var(--text-muted)'}}
                     onClick={() => setActiveTab('upgrades')}
@@ -100,11 +102,34 @@ export const Workshop = () => {
 
             {activeTab === 'store' && (
                 <div className="store-area">
-                    <div className="glass-card" style={{padding: '20px', textAlign: 'center', marginBottom: '24px', background: 'linear-gradient(135deg, #fdf5e6, #fffcf5)'}}>
+                    <div className="glass-card" style={{padding: '20px', textAlign: 'center', marginBottom: '16px', background: 'linear-gradient(135deg, #fdf5e6, #fffcf5)'}}>
                         <h3 style={{color: '#d4a373', fontSize: '1.2rem', margin: '0 0 8px 0'}}>Saldo CiDi Coin Anda</h3>
                         <div style={{fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-main)'}}>
                             💎 {state.cidiCoins || 0}
                         </div>
+                    </div>
+
+                    {/* Ad Boost Banner */}
+                    <div className="glass-card" style={{padding: '16px', marginBottom: '24px', background: 'linear-gradient(135deg, #fff3e0, #ffe0b2)', border: '2px solid #fb8c00', display: 'flex', alignItems: 'center', gap: '16px'}}>
+                        <div style={{fontSize: '3rem'}}>📺</div>
+                        <div style={{flex: 1}}>
+                            <h4 style={{margin: '0 0 4px 0', fontSize: '1.1rem', color: '#e65100'}}>Sewa 2x Slot Crafting (12 Jam)</h4>
+                            <p style={{margin: 0, fontSize: '0.85rem', color: '#795548', lineHeight: '1.4'}}>
+                                Tonton 1 iklan pendek untuk menggandakan kapasitas slot aktif Anda!
+                            </p>
+                            {isAdActive && (
+                                <div style={{fontSize: '0.85rem', fontWeight: 900, color: 'var(--accent-green-dark)', marginTop: '8px'}}>
+                                    ✅ Aktif! Sisa waktu: {Math.max(1, Math.ceil((state.rentedSlotsExpiry - Date.now()) / 3600000))} Jam
+                                </div>
+                            )}
+                        </div>
+                        <button
+                            onClick={watchAdRental}
+                            disabled={isAdActive}
+                            style={{background: isAdActive ? 'var(--bg-card)' : '#fb8c00', color: isAdActive ? 'var(--text-muted)' : 'white', fontWeight: 900, padding: '12px 16px', whiteSpace: 'nowrap', border: 'none'}}
+                        >
+                            {isAdActive ? 'Aktif' : 'Nonton 📺'}
+                        </button>
                     </div>
 
                     <div className="store-grid" style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
