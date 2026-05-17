@@ -1,0 +1,497 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap');
+
+:root {
+  --bg-main: #f0e6d2;      /* Warm paper/sand background */
+  --bg-card: #fdfaf3;      /* Off-white paper card */
+  --text-main: #5c4033;    /* Dark warm brown for text and outlines */
+  --text-muted: #8b6e5b;   /* Softer brown */
+  
+  --accent-green: #a3d9a5; /* Pastel green */
+  --accent-green-dark: #81c385; 
+  --accent-yellow: #fde882;/* Pastel yellow */
+  --accent-yellow-dark: #ecd35b;
+  --accent-red: #f3a696;   /* Pastel red/salmon */
+  --accent-red-dark: #d88978;
+  --accent-blue: #96c8f3;  /* Pastel blue */
+
+  --border-color: #5c4033; /* Thick dark outline */
+  --radius: 20px;          /* Bubbly rounded corners */
+  --border-width: 3px;     /* Thick borders for sticker look */
+  --shadow-offset: 4px;    /* Solid drop shadow */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', system-ui, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Add a subtle paper texture pattern if desired, but solid color is fine for now */
+}
+
+#root {
+  width: 100%;
+  max-width: 480px; /* Mobile width */
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-main);
+  box-shadow: 0 0 20px rgba(92, 64, 51, 0.2);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+/* Base Card Style (Cottagecore Paper look) */
+.glass-card, .order-card, .recipe-card, .upgrade-card, .stat-card, .sell-card {
+  background: var(--bg-card);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--border-color);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header / Inventory */
+.inventory-header {
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border-bottom: var(--border-width) solid var(--border-color);
+  box-shadow: 0 4px 0 0 var(--border-color);
+  z-index: 10;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.top-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+.coins { 
+  background: var(--accent-yellow);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 2px 0 0 var(--border-color);
+}
+
+
+.storage-bar-container { margin-bottom: 12px; }
+.storage-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+.storage-bar-bg {
+  width: 100%;
+  height: 16px;
+  background: #e4d7c0;
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+.storage-bar-fill {
+  height: 100%;
+  background: var(--accent-green);
+  border-right: 2px solid var(--border-color);
+  transition: width 0.3s ease-out;
+}
+.storage-bar-fill.full {
+  background: var(--accent-red);
+}
+
+.quick-ores {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 5px 0;
+  background: transparent;
+  gap: 10px;
+  overflow-x: auto;
+}
+.quick-ores::-webkit-scrollbar { display: none; }
+
+/* Content Area */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  padding-bottom: 100px; /* space for bottom nav */
+  position: relative;
+  z-index: 1;
+}
+
+::-webkit-scrollbar { width: 0px; background: transparent; display: none; }
+::-webkit-scrollbar-thumb { background: transparent; display: none; }
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+h3, h4 {
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+/* Mining Area */
+.ore-selector-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ore-tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: #fdfaf3;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-main);
+  font-weight: 800;
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--border-color);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+}
+
+.ore-tab-btn.active {
+  background: var(--accent-yellow);
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 0 var(--border-color);
+}
+
+.tab-icon { font-size: 1.6rem; }
+.tab-name { font-size: 0.9rem; }
+.tab-count { 
+  font-size: 0.8rem; 
+  background: var(--bg-main); 
+  padding: 2px 8px; 
+  border-radius: 10px; 
+  border: 2px solid var(--border-color);
+}
+
+.active-ore-viewport {
+  padding: 30px 20px;
+  margin-bottom: 24px;
+  text-align: center;
+  background: var(--bg-card);
+}
+
+.viewport-header h3 { font-size: 1.6rem; margin-bottom: 4px; }
+.ore-value { font-size: 1rem; color: var(--text-muted); font-weight: 700; }
+
+.ore-3d-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+.tap-instruction {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 15px;
+  background: var(--bg-main);
+  padding: 6px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  border: 2px solid var(--border-color);
+}
+
+.floating-number {
+  position: absolute;
+  color: var(--accent-green-dark);
+  font-weight: 900;
+  font-size: 2rem;
+  -webkit-text-stroke: 1px var(--text-main);
+  pointer-events: none;
+  animation: floatUp 0.8s ease-out forwards;
+  z-index: 10;
+}
+
+@keyframes floatUp {
+  0% { transform: translate(-50%, 0) scale(0.8); opacity: 1; }
+  100% { transform: translate(-50%, -60px) scale(1.5); opacity: 0; }
+}
+
+.mining-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+.stat-card { padding: 16px; text-align: center; background: var(--bg-card); }
+.stat-card h4 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
+.stat-val { font-size: 1.5rem; font-weight: 900; }
+
+.auto-miner-status {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--accent-green);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--border-color);
+}
+.robot-icon { font-size: 2.5rem; }
+.auto-miner-status strong { font-size: 1.2rem; display: block; }
+.auto-miner-status p { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+
+/* Buttons */
+button {
+  background: var(--accent-yellow);
+  color: var(--text-main);
+  border: var(--border-width) solid var(--border-color);
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--border-color);
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: inline-block;
+}
+button:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+button:active:not(:disabled) {
+  transform: translateY(var(--shadow-offset));
+  box-shadow: 0 0 0 0 var(--border-color);
+}
+button:disabled {
+  background: #d4cfc4;
+  color: #9c9288;
+  cursor: not-allowed;
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--text-muted);
+}
+
+/* Crafting Area */
+.craft-progress-bar, .craft-slot {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--border-color);
+  font-weight: 800;
+}
+.empty-slot {
+  background: #fdfaf3;
+  border: 3px dashed #d4cfc4;
+  box-shadow: none;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.locked-slot {
+  background: #faedea;
+  border: 3px dashed #d88978;
+  box-shadow: none;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.progress-bg {
+  width: 100%;
+  height: 14px;
+  background: #e4d7c0;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  margin-top: 12px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent-green);
+  border-right: 2px solid var(--border-color);
+  transition: width 0.1s linear;
+}
+
+.recipe-grid { display: grid; gap: 16px; }
+.recipe-card { padding: 20px; display: flex; flex-direction: column; }
+.recipe-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.item-icon { 
+  font-size: 2rem; 
+  padding: 10px; 
+  background: var(--bg-main); 
+  border-radius: 14px; 
+  border: 2px solid var(--border-color); 
+}
+.recipe-header h3 { font-size: 1.3rem; margin: 0; }
+
+.materials-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.materials-list span { 
+  font-size: 0.85rem; 
+  font-weight: 800; 
+  padding: 6px 12px; 
+  border-radius: 12px; 
+  border: 2px solid var(--border-color); 
+}
+.has-mat { background: var(--accent-green); }
+.need-mat { background: var(--accent-red); }
+
+.recipe-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+.craft-time { font-size: 1rem; font-weight: 800; color: var(--text-muted); }
+
+/* Rarity Styling for Recipes */
+.recipe-card.common { border-color: #a3a3a3; }
+.recipe-card.uncommon { border-color: #79c979; }
+.recipe-card.rare { border-color: #65a1e6; }
+.recipe-card.epic { border-color: #b976e6; }
+.recipe-card.legendary { 
+  border-color: #e6b94a; 
+  background: linear-gradient(135deg, #fdfaf3, #fff8e1);
+  box-shadow: 0 4px 0 0 #e6b94a; 
+}
+
+/* Market Area */
+.orders-list { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
+.order-card { padding: 20px; }
+.npc-card { background: #fffcf5; border-color: #d4a373; box-shadow: 0 var(--shadow-offset) 0 0 #d4a373; }
+.order-card.easy { background: var(--bg-card); }
+.order-card.medium { background: #fdf5e6; }
+.order-card.hard { background: #faedea; }
+.order-card.extreme { background: #f4e8ff; border-color: #b976e6; box-shadow: 0 4px 0 0 #b976e6; }
+
+.visitors-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+.visitors-scroll::-webkit-scrollbar { display: none; }
+
+.order-card h4 { font-size: 1.3rem; margin-bottom: 12px; }
+.order-reqs { margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; }
+.order-reward { font-size: 1.4rem; margin-bottom: 20px; font-weight: 900; color: #d4a373; }
+
+.sell-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sell-card { padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.sell-card h4 { font-size: 1.1rem; margin: 0; }
+.sell-card p { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin: 0; }
+
+/* Workshop */
+.upgrades-list { display: flex; flex-direction: column; gap: 16px; }
+.upgrade-card { padding: 20px; display: flex; align-items: center; gap: 18px; }
+.upgrade-icon { 
+  font-size: 2.2rem; 
+  padding: 12px; 
+  background: var(--bg-main); 
+  border-radius: 16px; 
+  border: 2px solid var(--border-color); 
+}
+.upgrade-info { flex: 1; }
+.upgrade-info h3 { font-size: 1.25rem; margin: 0 0 6px 0; display: flex; justify-content: space-between; align-items: center; }
+.upgrade-info h3 span { font-size: 0.85rem; padding: 4px 8px; background: var(--accent-yellow); border-radius: 12px; border: 2px solid var(--border-color); }
+.upgrade-info p { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.4; }
+.effect-preview { font-size: 0.9rem; font-weight: 800; color: var(--accent-green-dark); }
+
+
+
+/* Bottom Nav */
+.glass-nav {
+  position: absolute;
+  bottom: 10px; left: 10px; right: 10px; height: 80px;
+  background: var(--bg-card);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: 24px;
+  box-shadow: 0 var(--shadow-offset) 0 0 var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  padding: 0 10px;
+}
+.glass-nav button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 16px;
+}
+.glass-nav button:hover:not(:disabled) { transform: none; background: var(--bg-main); filter: none;}
+.glass-nav button.active {
+  color: var(--text-main);
+  background: var(--accent-yellow);
+  border: 2px solid var(--border-color);
+  box-shadow: 0 2px 0 0 var(--border-color);
+  transform: translateY(-4px);
+}
+.nav-icon { transition: transform 0.2s ease; font-size: 1.4rem;}
+.glass-nav button.active .nav-icon { transform: scale(1.1); }
+
+/* Modals */
+.modal-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(92, 64, 51, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+.offline-modal { 
+  background: var(--bg-card);
+  padding: 36px; 
+  text-align: center; 
+  width: 90%; 
+  max-width: 400px; 
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 0 0 var(--border-color);
+}
+.offline-modal h2 { margin-bottom: 12px; }
+.offline-rewards { 
+  display: flex; justify-content: center; gap: 24px; margin: 28px 0; 
+  background: var(--bg-main); padding: 20px; border-radius: 16px; border: 2px solid var(--border-color); 
+}
+.offline-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.offline-item .icon { font-size: 2.4rem; }
+.offline-item .amount { font-size: 1.5rem; font-weight: 900; color: var(--accent-green-dark); }

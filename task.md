@@ -1,0 +1,4 @@
+- [x] Update `gameConfig.js` to mention slots in Anvil description.
+- [x] Export `getMaxSlots(level)` in `gameState.jsx` and enforce the limit in `startCraft`.
+- [x] Update `CraftingTable.jsx` to render exact slot elements (Active, Empty, Locked teaser).
+- [x] Add specific styling for empty/locked slots in `index.css`.

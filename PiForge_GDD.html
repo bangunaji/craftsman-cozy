@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pi Forge - Master Game Design Document</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        h1 { color: #d4a373; border-bottom: 3px solid #d4a373; padding-bottom: 10px; font-size: 2.5em; margin-top: 40px; }
+        h2 { color: #5c4033; border-bottom: 1px solid #ccc; margin-top: 30px; font-size: 1.8em; }
+        h3 { color: #4CAF50; margin-top: 20px; font-size: 1.3em; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #fdfaf3; color: #5c4033; font-weight: bold; }
+        tr:nth-child(even) { background-color: #fafafa; }
+        .highlight { background-color: #ffcc0022; padding: 15px; border-left: 5px solid #ffcc00; margin: 20px 0; font-style: italic; }
+        .formula { background-color: #2c3e50; color: #fff; padding: 10px; border-radius: 5px; font-family: monospace; }
+        ul, ol { margin-bottom: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center; margin-bottom: 50px;">
+    <h1 style="border: none; font-size: 3.5em; margin-bottom: 0;">Pi Forge</h1>
+    <p style="font-size: 1.5em; color: #777; margin-top: 5px;">Master Game Design Document (GDD)</p>
+    <p><strong>Platform:</strong> CiDi Games (Pi Network) | <strong>Genre:</strong> Idle Crafting Strategy | <strong>Versi:</strong> 1.0 (MVP Final)</p>
+</div>
+
+<div class="highlight">
+    <strong>Executive Summary:</strong> Pi Forge adalah game simulasi manajemen sumber daya dan <em>crafting</em> idle yang memadukan estetika visual <em>Cottagecore/Kawaii</em> yang menenangkan dengan mekanik strategi ekonomi yang mendalam. Berbeda dengan game "clicker" tradisional, Pi Forge menghukum pola pikir "spam klik" dan menghadiahi alokasi sumber daya yang cerdas, pemilihan prioritas, dan manajemen waktu.
+</div>
+
+<h1>1. Filosofi Desain & Visi Inti</h1>
+<h2>1.1 Visi Permainan</h2>
+<p>Menciptakan pengalaman "zen" harian bagi pemain ekosistem Pi Network. Pemain dapat membuka game selama 5-10 menit saat jeda istirahat, membuat beberapa keputusan strategis mengenai alokasi produksi, lalu menutup game dengan perasaan puas bahwa "bengkel" mereka sedang bekerja untuk mereka.</p>
+
+<h2>1.2 Analisis Target Audiens</h2>
+<p>Target utama adalah pengguna Pi Browser. Mereka terbiasa dengan rutinitas harian (menekan tombol petir Pi). Game ini memanfaatkan kebiasaan tersebut dengan menyajikan rutinitas paralel: masuk, panen, buat keputusan, keluar. Game ini tidak menuntut pemain untuk menatap layar selama berjam-jam, menghargai waktu mereka, sekaligus memberikan <em>dopamine hit</em> yang stabil melalui penyelesaian pesanan NPC.</p>
+
+<h2>1.3 Aturan Anti "Mindless Tapping"</h2>
+<p>Sebagian besar game <em>idle</em> gagal karena pemain akhirnya menggunakan <em>auto-clicker</em> dan merusak ekonomi game. Pi Forge secara sengaja mendesain <em>bottleneck</em> pada pembuatan keputusan (Crafting Slots) dan batas tampung (Storage), sehingga bot tidak memiliki keunggulan kompetitif dibandingkan manusia yang cerdas dalam merencanakan produksi.</p>
+
+<h1>2. Art Direction & UI/UX Experience</h1>
+<h2>2.1 Tema Visual: "Kawaii Cottagecore"</h2>
+<p>Game secara keseluruhan menggunakan palet warna pastel yang hangat. Tidak ada efek neon, tidak ada tema <em>sci-fi</em>, dan tidak ada kesan "gelap/berat". Visualnya diarahkan menyerupai buku cerita anak-anak, stiker jurnal, atau seni kertas <em>(papercraft)</em>.</p>
+
+<h2>2.2 Color Palette</h2>
+<ul>
+    <li><strong>Background Utama:</strong> Krim Kertas (<code>#fdfaf3</code>) - Memberikan efek latar belakang analog yang menenangkan mata.</li>
+    <li><strong>Aksen Teks:</strong> Cokelat Kayu (<code>#5c4033</code>) - Menggantikan warna hitam pekat untuk mengurangi kontras yang membuat mata cepat lelah.</li>
+    <li><strong>Elemen Interaktif:</strong> Hijau Pastel (<code>#a3b18a</code>) untuk hal positif, Merah Tanah Liat (<code>#d88978</code>) untuk peringatan.</li>
+    <li><strong>Highlight & Emas:</strong> Kuning Lembut (<code>#d4a373</code>).</li>
+</ul>
+
+<h2>2.3 Tactile Interaction (Sensasi Sentuhan)</h2>
+<p>Semua tombol (button) dan kartu pesanan (card) dirancang dengan <em>Hard Drop Shadow</em> (bayangan tajam tanpa blur). Ketika ditekan, elemen akan turun secara presisi sejauh 4px dengan durasi transisi 0.1 detik (<code>transform: translateY(4px)</code>). Hal ini memberikan sensasi membal atau <em>"squishy"</em> yang memuaskan dan responsif secara psikologis, layaknya menekan tombol mekanis yang empuk.</p>
+
+<h1>3. Core Gameplay Loop & Player Psychology</h1>
+<h2>3.1 Sesi Bermain Ideal (Pacing Harian)</h2>
+<p>Desain game dirancang untuk sesi pendek. Berikut anatomi psikologis dari sesi 10 menit:</p>
+<ol>
+    <li><strong>The Hook (Menit 0-1):</strong> Pemain membuka game dan disambut oleh hasil tambang pasif selama mereka offline. Rasa pencapaian instan (Instant Gratification).</li>
+    <li><strong>The Tension (Menit 1-3):</strong> Pemain mengecek Market. Ada 3 NPC berteriak meminta barang dengan batas waktu kedaluwarsa. Pemain melihat sisa material mereka dan menyadari mereka harus memilih: <em>"Bantu Raja atau bantu Petualang?"</em></li>
+    <li><strong>The Execution (Menit 3-8):</strong> Pemain menambang kekurangan ore secara manual, memasukkan pesanan ke <em>Crafting Slot</em> yang jumlahnya terbatas. Mereka harus merencanakan antrean dengan cermat.</li>
+    <li><strong>The Release (Menit 8-10):</strong> Crafting selesai. Pemain menyerahkan barang, mendapatkan ledakan Koin (Reward), dan menggunakan koin itu untuk membeli 1 level Upgrade yang terasa sangat berharga. Sesi selesai.</li>
+</ol>
+
+<h1>4. Resource Management (Ekonomi Ore)</h1>
+<h2>4.1 Jenis Ore</h2>
+<p>Ore didapatkan melalui klik pada menu <strong>Mine</strong> atau secara otomatis oleh bangunan <strong>Auto-Miner</strong>.</p>
+<table>
+    <tr>
+        <th>Bahan</th>
+        <th>Ikon</th>
+        <th>Probabilitas Distribusi Default</th>
+        <th>Fungsi Utama</th>
+    </tr>
+    <tr>
+        <td>Stone</td>
+        <td>🪨</td>
+        <td>70%</td>
+        <td>Bahan dasar (Cincin, Pedang, pondasi item berat)</td>
+    </tr>
+    <tr>
+        <td>Iron</td>
+        <td>🔩</td>
+        <td>20%</td>
+        <td>Tulang punggung progres (Perisai, Zirah, Helm)</td>
+    </tr>
+    <tr>
+        <td>Crystal</td>
+        <td>💎</td>
+        <td>10%</td>
+        <td>Bahan magis langka (Tongkat Sihir, Mahkota, item eksklusif)</td>
+    </tr>
+</table>
+
+<h2>4.2 Offline Earnings Logic</h2>
+<p>Penambangan pasif tidak berjalan tanpa batas (infinite). Pendapatan offline dihitung berdasarkan rumus:</p>
+<div class="formula">
+    Total Mined = (Miner Level Rate * Detik Offline)<br>
+    Actual Earned = Minimum(Total Mined, Space Left in Storage)
+</div>
+<p>Jika Gudang (Storage) penuh, produksi otomatis berhenti. Ini memaksa pemain untuk tetap rajin membuka aplikasi guna mengosongkan gudang dengan cara melakukan <em>crafting</em>.</p>
+
+<h1>5. Crafting & The "Progression Gate"</h1>
+<h2>5.1 Item Tier List & Syarat Buka</h2>
+<p>Daftar item tidak semuanya langsung tersedia. Resep akan otomatis terbuka <em>(unlocked)</em> begitu bangunan yang relevan mencapai level tertentu. Ini memandu pemain pemula agar tidak terintimidasi oleh puluhan resep sekaligus.</p>
+<table>
+    <tr><th>Item</th><th>Komposisi Material</th><th>Waktu Dasar (Detik)</th><th>Base Price</th><th>Syarat Level Bangunan</th></tr>
+    <tr><td>Cincin</td><td>2 Stone</td><td>30</td><td>15</td><td>Default (Tersedia)</td></tr>
+    <tr><td>Pedang Besi</td><td>4 Stone, 2 Iron</td><td>60</td><td>50</td><td>Default (Tersedia)</td></tr>
+    <tr><td>Perisai</td><td>6 Stone, 3 Iron</td><td>120</td><td>120</td><td>Default (Tersedia)</td></tr>
+    <tr><td>Helm</td><td>4 Iron, 1 Crystal</td><td>180</td><td>200</td><td>Furnace Lv. 3</td></tr>
+    <tr><td>Tongkat Sihir</td><td>2 Iron, 3 Crystal</td><td>240</td><td>350</td><td>Furnace Lv. 3</td></tr>
+    <tr><td>Mahkota Emas</td><td>8 Stone, 4 Iron, 2 Crystal</td><td>300</td><td>500</td><td>Furnace Lv. 6</td></tr>
+    <tr><td>Zirah Lengkap</td><td>10 Iron, 4 Crystal</td><td>400</td><td>800</td><td>Anvil Lv. 5</td></tr>
+</table>
+
+<h2>5.2 "Solusi B": Keterbatasan Slot Crafting</h2>
+<p>Ini adalah jantung dari <em>pacing</em> Pi Forge. Alih-alih membuat antrean tak terbatas, pemain dibatasi oleh jumlah slot <strong>"In Progress"</strong> yang dimiliki.</p>
+<ul>
+    <li><strong>Level Anvil 0 - 2:</strong> 2 Slot. Pemain awal merasakan "kesempitan" antrean. Jika Raja meminta 3 pedang, pemain harus memutar otak karena tidak bisa membuat semuanya sekaligus.</li>
+    <li><strong>Level Anvil 3 - 6:</strong> 3 Slot. (Pencapaian besar pertama bagi pemain).</li>
+    <li><strong>Level Anvil 7 - 9:</strong> 4 Slot.</li>
+    <li><strong>Level Anvil 10 (Maks):</strong> 5 Slot.</li>
+</ul>
+<p>Sebagai trik antarmuka (UI Trick), game selalu menampilkan 1 "Slot Terkunci" tepat di bawah slot yang aktif dengan warna merah peringatan (contoh: <em>"🔒 Locked — Upgrade Anvil Lv.3"</em>). Ini memicu rasa gatal (keinginan psikologis) di otak pemain untuk segera mengumpulkan koin demi membuka belenggu tersebut.</p>
+
+<h1>6. Sistem Pembangunan Workshop (Scaling Eksponensial)</h1>
+<h2>6.1 Empat Pilar Infrastruktur</h2>
+<p>Terdapat 4 fasilitas yang bisa ditingkatkan oleh pemain. Seluruh fasilitas mentok (max cap) di Level 10 untuk menjaga agar permainan tidak <em>broken</em>/hiper-inflasi.</p>
+<ol>
+    <li><strong>Auto-Miner:</strong> Menambah +1 resource per detik / per level. Fokus pada kuantitas bahan mentah.</li>
+    <li><strong>Anvil (Landasan):</strong> Mempercepat kecepatan craft (-5% waktu per level) DAN menambah batas slot crafting (lihat 5.2). Upgrade yang paling diincar pemain.</li>
+    <li><strong>Furnace (Tungku):</strong> Membuka otomatis resep item-item tingkat tinggi (Tier 2 dan Tier 3). Tanpa ini, pemain hanya bisa menjual Cincin dan Pedang.</li>
+    <li><strong>Storage (Gudang):</strong> Meningkatkan kapasitas total ore (Base 100 + 50 per level). Sangat vital bagi pemain yang sibuk di dunia nyata dan jarang login.</li>
+</ol>
+
+<h2>6.2 Matematika Harga Upgrade (Cost Scaling)</h2>
+<p>Untuk memastikan progres pemain melambat seiring berjalannya waktu (mempertahankan masa hidup game), harga upgrade menggunakan rumus pelipatgandaan eksponensial tetap sebesar <strong>x1.12</strong> (12% inflasi per level).</p>
+<div class="formula">
+    Cost = Math.floor( Base Cost * Math.pow( 1.12, Current Level ) )
+</div>
+<p>Sebagai contoh, jika Base Cost Anvil adalah 100 koin:<br>
+Lv.0 -> Lv.1: 100 Koin<br>
+Lv.1 -> Lv.2: 112 Koin<br>
+Lv.2 -> Lv.3: 125 Koin<br>
+Lv.9 -> Lv.10: ~277 Koin<br>
+Angka rasio 1.12 dipilih secara khusus karena angka ini tidak terlalu curam untuk membuat pemain frustrasi, namun cukup signifikan untuk menahan laju penyelesaian konten secara instan.</p>
+
+<h1>7. Dynamic Market & Sistem NPC Dialog Popup</h1>
+<h2>7.1 Desain Interaksi (Popup Modal)</h2>
+<p>Pasar tidak hanya menyajikan angka yang dingin. NPC datang dalam bentuk avatar (ikon orang). Ketika ditekan, layar akan berubah menjadi gelap (overlay) dan sebuah <strong>Surat Pesanan / Popup Kertas</strong> muncul di tengah. Hal ini memaksa pemain untuk fokus membaca dialog dan kepribadian NPC sebelum memilih antara tombol hijau besar [Terima] atau tombol merah [Tolak].</p>
+
+<h2>7.2 Lore & Katalog NPC</h2>
+<p>Game memiliki ekosistem NPC dinamis yang me-reset daftar kunjungannya setiap pergantian hari nyata (00:00). Daftar rotasi NPC meliputi:</p>
+<ol>
+    <li><strong>Penduduk Desa (Target Pemula)</strong><br>
+    <em>Dialog:</em> "Permisi tuan pandai besi... desa kami sering diserang goblin akhir-akhir ini. Kami butuh senjata untuk berjaga-jaga."<br>
+    <em>Tenggat:</em> 24 Jam (Sangat santai)<br>
+    <em>Pesanan:</em> Barang dasar (Pedang). Hadiah 100 koin.</li>
+    
+    <li><strong>Pedagang Pasar (Rutin/Stabil)</strong><br>
+    <em>Dialog:</em> "Halo kawan! Aku butuh beberapa barang berkualitas untuk dijual di pasar kota. Bisa bantu menyediakannya?"<br>
+    <em>Tenggat:</em> 8 Jam<br>
+    <em>Pesanan:</em> Campuran dasar & menengah (Pedang + Perisai). Hadiah ~200 koin.</li>
+    
+    <li><strong>Raja Aldric (Tantangan Berat / High Reward)</strong><br>
+    <em>Dialog:</em> "Pandai besi! Kerajaanku membutuhkan 3 Pedang Besi sebelum fajar. Sanggup?"<br>
+    <em>Sifat:</em> Formal, Sombong, Demanding.<br>
+    <em>Tenggat:</em> 6 Jam (Sangat ketat, butuh Slot dan Anvil tinggi).<br>
+    <em>Hadiah Khusus:</em> 800 Koin + <strong>Lencana Raja</strong> (Ditampilkan sebagai teks berkilau di bawah koin).</li>
+    
+    <li><strong>Petualang Misterius (Rare / End-game)</strong><br>
+    <em>Dialog:</em> "Ssst... aku butuh sesuatu yang tidak biasa. Buat aku Tongkat Sihir, dan aku kasih blueprint yang tidak akan kamu temukan di tempat lain."<br>
+    <em>Tenggat:</em> 12 Jam.<br>
+    <em>Pesanan:</em> Item berbasis Kristal (Tongkat Sihir, dsb).<br>
+    <em>Hadiah Khusus:</em> 500 Koin + <strong>Blueprint Eksklusif</strong>.</li>
+</ol>
+
+<h2>7.3 Logika "Timer & Kedaluwarsa"</h2>
+<p>Countdown (hitung mundur) NPC <strong>tidak berjalan sebelum</strong> pemain menekan tombol "Terima". Ini adalah desain ramah-pengguna; pemain bisa melihat-lihat syarat pesanan terlebih dahulu, mengumpulkan bahannya di gudang, dan baru menekan "Terima" ketika mereka sudah yakin (atau sudah mulai proses <em>crafting</em>). Namun, sekali ditekan, <em>timer</em> akan berjalan secara absolut berdasarkan cap waktu nyata (Timestamp). Jika gagal, status pesanan berubah menjadi abu-abu pudar dengan tulisan <em>"Kedaluwarsa"</em> dan tombol <em>"Gagal"</em>.</p>
+
+<h1>8. Sistem Mekanik Anti-Curang (Anti Auto-Clicker)</h1>
+<p>Sistem pengamanan diletakkan langsung di dalam komponen <code>gameState.jsx</code> (client-side validation):</p>
+<div class="formula">
+    clickTimestamps = clickTimestamps.filter(t => now - t < 1000);<br>
+    if (clickTimestamps.length >= 8) return; // Block input
+</div>
+<p><strong>Bagaimana cara kerjanya?</strong> Array menyimpan sejarah klik (timestamp) pemain dalam 1 detik terakhir. Jika array mendeteksi bahwa ada 8 klik atau lebih dalam rentang waktu 1000ms (1 detik), fungsi <code>manualMine</code> akan melakukan <em>early return</em> (menolak memberikan ore tambahan). <br><br>Selain itu, mekanisme <strong>Storage Cap</strong> (batas muatan Gudang) dan <strong>Crafting Slot Cap</strong> (batas alokasi barang) memastikan bahwa menge-klik sejuta kali pun tidak akan memberikan koin tambahan, karena pemain tetap harus menunggu barang di-<em>craft</em> dan menunggu NPC bersedia membeli barang tersebut.</p>
+
+<h1>9. Sistem Prestige (Replayability Loop)</h1>
+<p>Ketika pemain berhasil mengumpulkan segudang kekayaan dan menyelesaikan bangunan level 10, game menawarkan mekanik "Prestige / Kelahiran Kembali".</p>
+<ul>
+    <li><strong>Biaya:</strong> Menghapus semua Koin, Ore, Item, dan Level Bangunan kembali menjadi 0.</li>
+    <li><strong>Hadiah:</strong> Pemain menerima <em>Prestige Stars</em>.</li>
+    <li><strong>Dampak Permanen:</strong> Setiap 1 Bintang Prestige memberikan pengali <code>+10%</code> untuk hasil <em>mining</em> secara permanen di permainan (run) berikutnya (<code>multiplier = 1 + (prestigeStars * 0.1)</code>).</li>
+    <li><strong>Speedrun Tracker:</strong> Sistem merekam variabel <code>bestPrestigeTime</code>, yaitu durasi waktu nyata tercepat pemain dari level 0 hingga berani menekan tombol Prestige. Ini dirancang murni untuk pamer di Leaderboard.</li>
+</ul>
+
+<h1>10. Peta Jalan Jangka Panjang & Monetisasi (Fase 2+)</h1>
+<h2>10.1 Monetisasi Non-P2W (Pay-to-Win)</h2>
+<p>Sebagai game di jaringan CiDi (Pi Network), Pi Forge akan mengintegrasikan Micro-transactions (MTX) yang tidak merusak daya saing (fair play):</p>
+<ul>
+    <li><strong>Kosmetik (Skin):</strong> Mengubah tampilan antarmuka (contoh: Tema Cyberpunk Forge, Tema Snowy Forge). Dibeli menggunakan CiDi Coins.</li>
+    <li><strong>Rewarded Video Ads (Iklan):</strong> Pemain dapat menonton iklan selama 30 detik untuk mendapatkan efek "Rage Forge" (Proses crafting 2x lipat lebih cepat selama 15 menit).</li>
+    <li><strong>Storage Expanders:</strong> Upgrade kapasitas gudang ekstra (yang tidak memengaruhi hasil akhir Leaderboard kompetitif).</li>
+</ul>
+
+<h2>10.2 Sistem Season (Musim)</h2>
+<p>Setiap 1-2 bulan, Pi Forge akan melakukan rotasi Season.</p>
+<ul>
+    <li><em>Blueprint</em> khusus yang didapatkan dari Petualang Misterius hanya valid dan bisa digunakan untuk meng-craft "Item Relik" di musim tersebut.</li>
+    <li>Leaderboard di-reset di setiap Season untuk memberi kesempatan pada pemain baru bersaing mengejar gelar "Juara Pandai Besi Season X". Gelar tersebut permanen dan akan terpajang di sebelah nama mereka di kolom Obrolan (Global Chat) masa depan.</li>
+</ul>
+
+<div style="margin-top: 50px; text-align: center; border-top: 1px solid #ddd; padding-top: 20px; font-size: 0.9em; color: #777;">
+    <p>Pi Forge - Hak Cipta & Desain Milik Proyek CiDi Games © 2026</p>
+    <p>Dokumen ini adalah cetak biru mutlak (Master Blueprint) untuk pengembangan perangkat lunak.</p>
+</div>
+
+</body>
+</html>

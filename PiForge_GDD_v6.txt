@@ -1,0 +1,1845 @@
+■
+ Pi Forge
+ Master Game Design Document (GDD)
+ Platform: CiDi Games (Pi Network)
+ Genre: Idle Crafting Strategy
+ Versi: 6.0 — 20 Ore Types & 110 Recipes Full Catalog
+ Status: Master Blueprint (MVP Final + Expansion)
+Versi
+Perubahan Utama
+v1.0
+Draft awal — core loop, NPC, crafting, prestige
+v2.0
+Ore tier system, monetisasi diperluas, storage update,
+blueprint premium, auto-submit, social loop, tutorial
+v3.0
+Monster Threat System — tap mechanic, bodyguard/mercenary,
+scaling harga, boss monster, notifikasi push
+v4.0
+Rebalanced progression — rasio scaling 1.12 -> 1.5, base cost
+beda per bangunan, hard gate level, max level naik ke 15
+v5.0
+Endgame redesign — Prestige & Season dihapus, tujuan akhir
+jelas: bangunan Lv.25 maks + craft Legendary Set 7 item,
+max level bangunan naik ke 25
+v6.0
+20 ore types (Fantasy/Nature campuran), 110 resep lengkap
+diklasifikasi Common/Uncommon/Rare/Epic/Legendary
+
+Daftar Isi
+ 1. Filosofi Desain & Visi Inti
+ 2. Art Direction & UI/UX Experience
+ 3. Core Gameplay Loop & Player Psychology
+ 4. Resource Management — 20 Ore Types Full Catalog (UPDATED v6.0)
+ 5. Crafting — 110 Resep Lengkap C/UC/Rare/Epic/Legendary (UPDATED v6.0)
+ 6. Sistem Pembangunan Workshop — Level 25, Rebalanced (UPDATED v5.0)
+ 7. Dynamic Market & NPC Dialog
+ 8. Monetisasi — CiDi Coin Store (UPDATED)
+ 9. Sistem Anti-Curang
+ 10. Sistem Endgame — Legendary Set & Master Blacksmith (REDESIGNED v5.0)
+ 11. Profil Player — Pi Network & CiDi Games (NEW)
+ 12. Social Loop & Viral Mechanics (NEW)
+ 13. Tutorial Interaktif Hari Pertama (NEW)
+ 14. Peta Jalan Jangka Panjang (Season Dihapus)
+ 15. Monster Threat System (NEW v3.0)
+
+1.1 Visi Permainan
+Menciptakan pengalaman "zen" harian bagi pemain ekosistem Pi Network. Pemain dapat membuka game
+selama 5-10 menit saat jeda istirahat, membuat beberapa keputusan strategis mengenai alokasi produksi,
+lalu menutup game dengan perasaan puas bahwa "bengkel" mereka sedang bekerja untuk mereka.
+1.2 Target Audiens
+Target utama adalah pengguna Pi Browser yang terbiasa dengan rutinitas harian (menekan tombol petir
+Pi). Game ini memanfaatkan kebiasaan tersebut dengan rutinitas paralel: masuk, panen, buat keputusan,
+keluar. Game tidak menuntut pemain menatap layar berjam-jam.
+1.3 Aturan Anti "Mindless Tapping"
+Pi Forge secara sengaja mendesain bottleneck pada pembuatan keputusan (Crafting Slots) dan batas
+tampung (Storage), sehingga bot tidak memiliki keunggulan kompetitif dibandingkan manusia yang
+cerdas.
+
+2. Art Direction & UI/UX Experience
+2.1 Tema Visual: "Kawaii Cottagecore"
+Game menggunakan palet warna pastel yang hangat. Tidak ada efek neon, tidak ada tema sci-fi, dan tidak
+ada kesan gelap/berat. Visual diarahkan menyerupai buku cerita anak-anak, stiker jurnal, atau seni kertas
+(papercraft).
+2.2 Color Palette
+Elemen
+Kode Warna
+Deskripsi
+Background Utama
+#fdfaf3
+Krim Kertas — efek analog, menenangkan mata
+Aksen Teks
+#5c4033
+Cokelat Kayu — ganti hitam pekat, kurangi kelelahan
+Elemen Positif
+#a3b18a
+Hijau Pastel — tombol, konfirmasi
+Peringatan
+#d88978
+Merah Tanah Liat — error, waktu hampir habis
+Highlight/Emas
+#d4a373
+Kuning Lembut — reward, koin, pencapaian
+2.3 Tactile Interaction
+Semua tombol dan kartu pesanan dirancang dengan Hard Drop Shadow (bayangan tajam tanpa blur).
+Ketika ditekan, elemen turun 4px dengan transisi 0.1 detik (transform: translateY(4px)), memberikan
+sensasi "squishy" seperti tombol mekanis.
+
+3. Core Gameplay Loop & Player Psychology
+3.1 Sesi Bermain Ideal (10 Menit)
+Fase
+Durasi
+Mekanik
+Efek Psikologis
+The Hook
+0-1 menit
+Lihat hasil offline mining
+Instant Gratification
+The Tension
+1-3 menit
+Cek Market & pilih NPC
+FOMO & Decision Making
+The Execution
+3-8 menit
+Mining + atur Crafting Queue
+Flow State
+The Release
+8-10 menit
+Serahkan pesanan & upgrade
+Dopamine & Closure
+
+4. Resource Management — Sistem Ore Tier
+ ✦ SECTION UPDATED v2.0 — Ore Tier System Baru
+Sistem ore diperbarui total dari 3 material menjadi 6 tier ore yang unlock secara progresif. Semakin lama
+bermain dan semakin tinggi level bangunan, semakin langka dan berharga material yang bisa didapatkan.
+Ini membuat resep makin bervariasi dan memperpanjang umur game secara signifikan.
+4.1 Daftar 20 Ore & Unlock Condition
+ ✦ UPDATED v6.0 — Diperluas dari 6 menjadi 20 jenis ore
+20 ore dibagi dalam 5 tier berdasarkan kelangkaan dan kekuatan. Setiap tier memiliki 4 ore dengan tema
+campuran Fantasy/Medieval dan Nature. Semakin tinggi tier, semakin langka dan semakin mahal item
+yang bisa dibuat.
+Tier
+Ore
+Drop Rate
+Unlock
+Tema
+T1
+Stone
+35%
+Default
+Nature — Batu biasa, fondasi semua item
+T1
+Iron
+20%
+Default
+Fantasy — Logam dasar tempa
+T1
+Wood
+15%
+Default
+Nature — Kayu keras hutan
+T1
+Clay
+10%
+Default
+Nature — Tanah liat bakar
+T2
+Copper
+6%
+Miner Lv.3
+Fantasy — Logam kemerahan
+T2
+Silver
+4%
+Miner Lv.3
+Fantasy — Logam bercahaya
+T2
+Bamboo Crystal
+3%
+Furnace Lv.3
+Nature — Kristal bambu hijau
+T2
+Amber
+2%
+Furnace Lv.3
+Nature — Resin fosil keemasan
+T3
+Gold
+1.5%
+Furnace Lv.5
+Fantasy — Logam mewah
+T3
+Jade
+1%
+Furnace Lv.5
+Nature — Batu giok hijau
+T3
+Moonstone
+0.8%
+Furnace Lv.7
+Nature — Batu bulan bercahaya
+T3
+Mithril
+0.6%
+Furnace Lv.7
+Fantasy — Logam langka ringan
+T4
+Obsidian
+0.4%
+Furnace Lv.10
+Nature — Kaca vulkanik hitam
+T4
+Dragonite
+0.3%
+Furnace Lv.12
+Fantasy — Sisik naga membatu
+T4
+Aurora Stone
+0.2%
+Furnace Lv.14
+Nature — Batu cahaya utara
+T4
+Adamantite
+0.15%
+Furnace Lv.15
+Fantasy — Logam terkeras
+T5
+Ethereal Crystal
+0.1%
+Furnace Lv.18
+Fantasy — Kristal dimensi lain
+T5
+Voidstone
+0.07%
+Furnace Lv.20
+Nature — Batu dari kekosongan
+T5
+Sunfire Ore
+0.05%
+Furnace Lv.22
+Nature — Serpihan matahari
+T5
+Divine Ingot
+0.03%
+Furnace Lv.25
+Fantasy — Logam para dewa
+Total drop rate tidak berjumlah 100% karena sistem menggunakan weighted random — beberapa roll bisa
+menghasilkan "empty" (tidak dapat ore) untuk mensimulasikan penambangan yang tidak selalu berhasil.
+
+Catatan penting: Probabilitas di atas adalah default. Pemain bisa meningkatkan peluang ore langka menggunakan
+item monetisasi "Ore Detector" (lihat Bab 8).
+4.2 Offline Earnings Logic (Updated)
+Formula kalkulasi offline:
+Total Mined = Miner Level Rate * Detik Offline Actual Earned = min(Total Mined,
+Space Left in Storage)
+Jika Storage penuh, produksi otomatis berhenti. Storage base kapasitas dinaikkan dari 100 menjadi 150
+untuk mengakomodasi variasi ore baru.
+4.3 Storage Capacity (Updated)
+Level Storage
+Kapasitas Total Ore
+Level 0 (Default)
+150
+Level 1
+200
+Level 3
+300
+Level 5
+400
+Level 7
+500
+Level 10 (Maks)
+650
+Storage Expander (+1)
++100 di atas batas maks (maks 2x)
+Storage Expander adalah item berbayar CiDi Coin yang memberikan +100 slot di atas batas maksimal upgrade
+biasa. Maksimal 2 Expander per akun (total +200).
+
+5. Crafting & Progression Gate
+5.1 Sistem Rarity Resep
+ ✦ UPDATED v6.0 — 110 resep lengkap diklasifikasi 5 rarity
+110 resep dibagi dalam 5 tingkat rarity. Semakin langka resep, semakin mahal item yang dihasilkan dan
+semakin susah materialnya didapat. Resep Common terbuka dari awal, sedangkan Legendary hanya
+terbuka setelah bangunan mencapai level tinggi.
+Rarity
+Jumlah Resep
+Unlock
+Harga Jual Range
+Warna UI
+Common
+30 resep
+Default / Furnace Lv.1-4
+10 - 500 koin
+Abu-abu
+Uncommon
+28 resep
+Furnace Lv.5-8
+500 - 2,000 koin
+Hijau
+Rare
+24 resep
+Furnace Lv.9-13
+2,000 - 8,000 koin
+Biru
+Epic
+18 resep
+Furnace Lv.14-19
+8,000 - 30,000 koin
+Ungu
+Legendary
+10 resep
+Furnace Lv.20-25
+30,000 - 80,000 koin
+Emas
+5.2 Common Recipes (30 Resep) — Abu-abu
+Material utama: Stone, Iron, Wood, Clay. Unlock dari awal hingga Furnace Lv.4.
+#
+Item
+Material
+Waktu
+Harga
+Unlock
+C01
+Clay Pot
+3 Clay
+20 dtk
+10
+Default
+C02
+Wooden Stick
+2 Wood
+15 dtk
+12
+Default
+C03
+Stone Ring
+2 Stone
+30 dtk
+18
+Default
+C04
+Iron Nail
+1 Iron
+20 dtk
+20
+Default
+C05
+Wooden Shield
+4 Wood, 1 Iron
+45 dtk
+35
+Default
+C06
+Stone Axe
+3 Stone, 1 Wood
+40 dtk
+38
+Default
+C07
+Clay Brick
+5 Clay
+35 dtk
+40
+Default
+C08
+Iron Dagger
+2 Iron, 1 Wood
+50 dtk
+45
+Default
+C09
+Wooden Bow
+5 Wood, 2 Stone
+55 dtk
+48
+Default
+C10
+Iron Sword
+4 Stone, 2 Iron
+60 dtk
+55
+Default
+C11
+Stone Wall Piece
+6 Stone, 2 Clay
+65 dtk
+60
+Furnace Lv.1
+C12
+Iron Shield
+6 Stone, 3 Iron
+80 dtk
+75
+Furnace Lv.1
+C13
+Wooden Chest
+6 Wood, 2 Iron
+75 dtk
+70
+Furnace Lv.1
+C14
+Clay Vase
+4 Clay, 1 Stone
+60 dtk
+65
+Furnace Lv.1
+C15
+Iron Helm
+5 Iron, 2 Stone
+90 dtk
+90
+Furnace Lv.2
+C16
+Stone Hammer
+4 Stone, 3 Iron
+85 dtk
+85
+Furnace Lv.2
+
+C17
+Wooden Spear
+6 Wood, 2 Stone, 1 Iron
+95 dtk
+95
+Furnace Lv.2
+C18
+Iron Gauntlet
+4 Iron, 2 Stone
+100 dtk
+105
+Furnace Lv.2
+C19
+Clay Lantern
+3 Clay, 2 Wood
+70 dtk
+80
+Furnace Lv.2
+C20
+Stone Statue
+8 Stone, 2 Clay
+110 dtk
+120
+Furnace Lv.3
+C21
+Iron Breastplate
+6 Iron, 4 Stone
+120 dtk
+130
+Furnace Lv.3
+C22
+Wooden Cabin
+10 Wood, 3 Stone
+130 dtk
+140
+Furnace Lv.3
+C23
+Iron Boots
+5 Iron, 2 Clay
+115 dtk
+125
+Furnace Lv.3
+C24
+Stone Tower
+10 Stone, 4 Clay
+140 dtk
+155
+Furnace Lv.3
+C25
+Iron Full Armor
+10 Iron, 4 Stone
+160 dtk
+200
+Furnace Lv.4
+C26
+Wooden Siege Bow
+8 Wood, 4 Iron
+150 dtk
+185
+Furnace Lv.4
+C27
+Clay Golem Core
+8 Clay, 4 Stone
+145 dtk
+175
+Furnace Lv.4
+C28
+Iron War Axe
+6 Iron, 3 Wood
+155 dtk
+190
+Furnace Lv.4
+C29
+Stone Fortress Wall
+12 Stone, 5 Clay
+170 dtk
+210
+Furnace Lv.4
+C30
+Iron Tower Shield
+8 Iron, 6 Stone
+180 dtk
+230
+Furnace Lv.4
+5.3 Uncommon Recipes (28 Resep) — Hijau
+Material utama: Copper, Silver, Bamboo Crystal, Amber. Unlock Furnace Lv.5-8.
+#
+Item
+Material
+Waktu
+Harga
+Unlock
+U01
+Copper Bracelet
+3 Copper, 1 Stone
+90 dtk
+500
+Furnace Lv.5
+U02
+Amber Pendant
+2 Amber, 1 Wood
+95 dtk
+520
+Furnace Lv.5
+U03
+Silver Ring
+3 Silver, 1 Stone
+100 dtk
+550
+Furnace Lv.5
+U04
+Bamboo Staff
+4 Bamboo Crystal, 2 Wood
+110 dtk
+580
+Furnace Lv.5
+U05
+Copper Sword
+4 Copper, 2 Iron
+120 dtk
+620
+Furnace Lv.5
+U06
+Amber Necklace
+3 Amber, 2 Stone
+115 dtk
+610
+Furnace Lv.5
+U07
+Silver Earring
+2 Silver, 1 Copper
+105 dtk
+590
+Furnace Lv.5
+U08
+Bamboo Armor
+5 Bamboo Crystal, 3 Wood
+130 dtk
+660
+Furnace Lv.6
+U09
+Copper Shield
+5 Copper, 3 Iron
+135 dtk
+680
+Furnace Lv.6
+U10
+Silver Dagger
+4 Silver, 2 Copper
+125 dtk
+650
+Furnace Lv.6
+U11
+Amber Totem
+4 Amber, 2 Bamboo Crystal
+140 dtk
+700
+Furnace Lv.6
+U12
+Copper War Helm
+5 Copper, 2 Stone
+145 dtk
+720
+Furnace Lv.6
+U13
+Silver Amulet
+4 Silver, 2 Amber
+150 dtk
+750
+Furnace Lv.6
+U14
+Bamboo Wind Bow
+6 Bamboo Crystal, 3 Wood
+155 dtk
+780
+Furnace Lv.7
+
+U15
+Copper Full Plate
+7 Copper, 4 Iron
+170 dtk
+820
+Furnace Lv.7
+U16
+Silver Crown
+5 Silver, 3 Copper
+165 dtk
+800
+Furnace Lv.7
+U17
+Amber Staff
+5 Amber, 3 Bamboo Crystal
+175 dtk
+840
+Furnace Lv.7
+U18
+Copper Cannon
+6 Copper, 4 Stone
+180 dtk
+870
+Furnace Lv.7
+U19
+Silver Battle Axe
+5 Silver, 4 Copper
+185 dtk
+900
+Furnace Lv.7
+U20
+Bamboo Golem
+8 Bamboo Crystal, 4 Wood
+200 dtk
+950
+Furnace Lv.8
+U21
+Amber War Mask
+5 Amber, 3 Copper
+195 dtk
+930
+Furnace Lv.8
+U22
+Silver Fortress Key
+6 Silver, 3 Amber
+205 dtk
+960
+Furnace Lv.8
+U23
+Copper Dragon Blade
+7 Copper, 3 Silver
+210 dtk
+990
+Furnace Lv.8
+U24
+Bamboo Spirit Shield
+7 Bamboo Crystal, 4 Amber
+215 dtk
+1020
+Furnace Lv.8
+U25
+Silver War Armor
+7 Silver, 5 Copper
+220 dtk
+1100
+Furnace Lv.8
+U26
+Amber Golem Heart
+6 Amber, 4 Bamboo Crystal
+225 dtk
+1150
+Furnace Lv.8
+U27
+Copper Siege Tower
+9 Copper, 5 Stone
+235 dtk
+1200
+Furnace Lv.8
+U28
+Silver Dragon Scale
+8 Silver, 4 Amber
+240 dtk
+1300
+Furnace Lv.8
+5.4 Rare Recipes (24 Resep) — Biru
+Material utama: Gold, Jade, Moonstone, Mithril. Unlock Furnace Lv.9-13.
+#
+Item
+Material
+Waktu
+Harga
+Unlock
+R01
+Gold Ring
+3 Gold, 2 Silver
+180 dtk
+2000
+Furnace Lv.9
+R02
+Jade Pendant
+3 Jade, 2 Bamboo Crystal
+190 dtk
+2100
+Furnace Lv.9
+R03
+Moonstone Orb
+3 Moonstone, 2 Amber
+200 dtk
+2200
+Furnace Lv.9
+R04
+Mithril Dagger
+3 Mithril, 2 Silver
+210 dtk
+2350
+Furnace Lv.9
+R05
+Gold Crown
+5 Gold, 3 Silver
+240 dtk
+2600
+Furnace Lv.10
+R06
+Jade War Staff
+4 Jade, 3 Bamboo Crystal
+250 dtk
+2700
+Furnace Lv.10
+R07
+Moonstone Shield
+4 Moonstone, 3 Mithril
+260 dtk
+2900
+Furnace Lv.10
+R08
+Mithril Sword
+5 Mithril, 3 Gold
+270 dtk
+3100
+Furnace Lv.10
+R09
+Gold Armor
+6 Gold, 4 Silver
+300 dtk
+3400
+Furnace Lv.10
+R10
+Jade Amulet
+5 Jade, 3 Moonstone
+310 dtk
+3600
+Furnace Lv.11
+R11
+Moonstone Wand
+5 Moonstone, 3 Jade
+320 dtk
+3800
+Furnace Lv.11
+R12
+Mithril Breastplate
+6 Mithril, 4 Gold
+330 dtk
+4000
+Furnace Lv.11
+R13
+Gold Trident
+6 Gold, 4 Mithril
+350 dtk
+4200
+Furnace Lv.11
+R14
+Jade Dragon Helm
+5 Jade, 4 Gold
+360 dtk
+4400
+Furnace Lv.12
+
+R15
+Moonstone Tiara
+6 Moonstone, 4 Silver
+370 dtk
+4600
+Furnace Lv.12
+R16
+Mithril War Axe
+7 Mithril, 4 Gold
+380 dtk
+4900
+Furnace Lv.12
+R17
+Gold Dragon Scale
+7 Gold, 5 Mithril
+400 dtk
+5200
+Furnace Lv.12
+R18
+Jade Fortress Key
+6 Jade, 4 Moonstone
+410 dtk
+5500
+Furnace Lv.13
+R19
+Moonstone Full Armor
+7 Moonstone, 5 Mithril
+420 dtk
+5800
+Furnace Lv.13
+R20
+Mithril Dragon Blade
+8 Mithril, 5 Gold
+440 dtk
+6100
+Furnace Lv.13
+R21
+Gold Phoenix Crown
+8 Gold, 5 Jade
+460 dtk
+6500
+Furnace Lv.13
+R22
+Jade Golem Core
+7 Jade, 5 Moonstone
+470 dtk
+6800
+Furnace Lv.13
+R23
+Moonstone Dragon Orb
+8 Moonstone, 5 Jade
+480 dtk
+7200
+Furnace Lv.13
+R24
+Mithril Royal Armor
+9 Mithril, 6 Gold
+500 dtk
+7800
+Furnace Lv.13
+5.5 Epic Recipes (18 Resep) — Ungu
+Material utama: Obsidian, Dragonite, Aurora Stone, Adamantite. Unlock Furnace Lv.14-19.
+#
+Item
+Material
+Waktu
+Harga
+Unlock
+E01
+Obsidian Blade
+4 Obsidian, 3 Mithril
+480 dtk
+8000
+Furnace Lv.14
+E02
+Dragonite Scale
+3 Dragonite, 4 Obsidian
+500 dtk
+8500
+Furnace Lv.14
+E03
+Aurora Wand
+4 Aurora Stone, 3 Jade
+510 dtk
+9000
+Furnace Lv.14
+E04
+Adamantite Gauntlet
+4 Adamantite, 3 Mithril
+520 dtk
+9500
+Furnace Lv.15
+E05
+Obsidian War Armor
+6 Obsidian, 4 Adamantite
+560 dtk
+10500
+Furnace Lv.15
+E06
+Dragonite Helm
+5 Dragonite, 3 Obsidian
+570 dtk
+11000
+Furnace Lv.15
+E07
+Aurora Shield
+5 Aurora Stone, 4 Moonstone
+580 dtk
+11500
+Furnace Lv.16
+E08
+Adamantite Sword
+6 Adamantite, 4 Obsidian
+600 dtk
+12500
+Furnace Lv.16
+E09
+Obsidian Dragon Crown
+6 Obsidian, 5 Dragonite
+620 dtk
+13500
+Furnace Lv.16
+E10
+Dragonite Full Armor
+7 Dragonite, 5 Adamantite
+650 dtk
+14500
+Furnace Lv.17
+E11
+Aurora Dragon Staff
+6 Aurora Stone, 4 Dragonite
+660 dtk
+15500
+Furnace Lv.17
+E12
+Adamantite War Axe
+7 Adamantite, 5 Dragonite
+680 dtk
+16500
+Furnace Lv.17
+E13
+Obsidian Golem
+8 Obsidian, 5 Aurora Stone
+700 dtk
+17500
+Furnace Lv.18
+E14
+Dragonite Siege Cannon
+7 Dragonite, 6 Adamantite
+720 dtk
+18500
+Furnace Lv.18
+E15
+Aurora Phoenix Bow
+7 Aurora Stone, 5 Dragonite
+740 dtk
+20000
+Furnace Lv.18
+E16
+Adamantite Royal Armor
+8 Adamantite, 6 Obsidian
+760 dtk
+22000
+Furnace Lv.19
+E17
+Obsidian Dragon Trident
+9 Obsidian, 6 Dragonite
+780 dtk
+25000
+Furnace Lv.19
+E18
+Aurora Celestial Crown
+8 Aurora Stone, 6 Adamantite
+800 dtk
+28000
+Furnace Lv.19
+
+5.6 Legendary Recipes (10 Resep) — Emas
+Material utama: Ethereal Crystal, Voidstone, Sunfire Ore, Divine Ingot. Unlock Furnace Lv.20-25.
+Beberapa resep membutuhkan Blueprint langka dari NPC.
+#
+Item
+Material
+Waktu
+Harga
+Unlock
+L01
+Ethereal Blade
+5 Ethereal Crystal, 4 Adamantite
+900 dtk
+30000
+Furnace Lv.20
+L02
+Voidstone Orb
+4 Voidstone, 4 Ethereal Crystal
+950 dtk
+33000
+Furnace Lv.20
+L03
+Sunfire Armor
+5 Sunfire Ore, 4 Aurora Stone
+1000 dtk
+36000
+Furnace Lv.21
+L04
+Divine Ring
+3 Divine Ingot, 4 Sunfire Ore
+1050 dtk
+40000
+Furnace Lv.21
+L05
+Voidstone Crown
+5 Voidstone, 4 Dragonite
+1100 dtk
+44000
+Furnace Lv.22
+L06
+Sunfire Dragon Staff
+6 Sunfire Ore, 4 Ethereal Crystal
+1150 dtk
+48000
+Furnace Lv.22
+L07
+Divine War Armor
+5 Divine Ingot, 5 Voidstone
+1200 dtk
+52000
+Furnace Lv.23
+L08
+Ethereal Phoenix Set
+6 Ethereal Crystal, 4 Sunfire Ore,
+1 Blueprint Langka
+1400 dtk
+60000
+Furnace Lv.23
+L09
+Voidstone Celestial Blade
+6 Voidstone, 5 Divine Ingot,
+1 Blueprint Langka
+1600 dtk
+70000
+Furnace Lv.24
+L10
+Divine Forge Relic
+5 Divine Ingot, 4 Voidstone,
+3 Sunfire Ore, 2 Blueprint Langka
+2000 dtk
+80000
+Furnace Lv.25
+L10 "Divine Forge Relic" adalah item non-Legendary Set dengan harga jual tertinggi (80,000 koin). Item Legendary
+Set (Bab 10) tetap terpisah dan tidak bisa dijual ke NPC biasa.
+5.7 Ringkasan 110 Resep
+Rarity
+Jumlah
+Ore Utama
+Harga Min
+Harga Maks
+Total Nilai Ekonomi
+Common
+30
+Stone, Iron, Wood, Clay
+10
+230
+~3,800 koin total
+Uncommon
+28
+Copper, Silver, Bamboo, Amber
+500
+1,300
+~23,000 koin total
+Rare
+24
+Gold, Jade, Moonstone, Mithril
+2,000
+7,800
+~115,000 koin total
+Epic
+18
+Obsidian, Dragonite, Aurora, Adamantite
+8,000
+28,000
+~295,000 koin total
+Legendary
+10
+Ethereal, Voidstone, Sunfire, Divine
+30,000
+80,000
+~493,000 koin total
+TOTAL
+110
+20 jenis ore
+10
+80,000
+~930,000 koin total
+5.2 Blueprint Premium (NEW)
+ ✦ FITUR BARU — Blueprint dari NPC Langka
+Blueprint eksklusif didapatkan dari NPC Petualang Misterius sebagai hadiah pesanan khusus. Blueprint ini
+membuka resep item yang TIDAK bisa didapat dari upgrade bangunan biasa — artinya item ini langka dan
+harganya jauh lebih tinggi dari item normal setara tier-nya.
+Blueprint
+Material
+Waktu
+Harga Jual
+Sumber
+
+Pedang Rune
+4 Iron, 2 Obsidian, 1 Blueprint
+480
+3000 koin
+Petualang Misterius
+Mahkota Kristal Kuno
+3 Gold, 3 Jade, 1 Blueprint
+600
+4500 koin
+Petualang Misterius
+Armor of Eternity
+5 Obsidian, 3 Ethereal, 1 Blueprint
+900
+8000 koin
+Event Season
+5.3 Crafting Slot System
+Level Anvil
+Slot Tersedia
+Lv.0 - 2
+2 Slot
+Lv.3 - 6
+3 Slot
+Lv.7 - 9
+4 Slot
+Lv.10 (Maks)
+5 Slot
+Extra Slot Sewa (Berbayar)
++1 Slot selama 24 jam (CiDi Coin)
+
+6. Sistem Pembangunan Workshop
+6.1 Empat Pilar Infrastruktur
+Bangunan
+Efek per Level
+Max Level
+Catatan
+Auto-Miner
++1 resource/detik
+10
+Fokus kuantitas bahan mentah
+Anvil (Landasan)
+-5% waktu craft, +slot di Lv.3/7/10
+10
+Upgrade paling diincar
+Furnace (Tungku)
+Buka resep tier tinggi & ore baru
+10
+Unlock Gold di Lv.3, Jade di Lv.5
+Storage (Gudang)
++50 kapasitas/level (base 150)
+10
+Vital untuk pemain sibuk
+6.2 Formula Harga Upgrade — Rebalanced (UPDATED v4.0)
+ ✦ UPDATE v4.0 — Rasio scaling dinaikkan dari 1.12 ke 1.5
+Berdasarkan playtesting, rasio 1.12 terlalu lemah — pemain bisa mencapai level 10 dalam hitungan menit.
+Rasio dinaikkan ke 1.5 dengan base cost berbeda per bangunan sesuai powernya. Max level juga
+dinaikkan dari 10 ke 15.
+Formula baru:
+Cost = Math.floor( BaseCost * Math.pow( 1.5, CurrentLevel ) )
+6.2.1 Base Cost Per Bangunan
+Bangunan
+Base Cost
+Alasan
+Max Level Baru
+Auto-Miner
+80 koin
+Murah — sering diupgrade, efek incremental
+25
+Anvil (Landasan)
+150 koin
+Mahal — paling powerful, buka slot crafting
+25
+Furnace (Tungku)
+200 koin
+Mahal — unlock konten & ore tier baru
+25
+Storage (Gudang)
+60 koin
+Murah — quality of life, tidak game-breaking
+25
+6.2.2 Simulasi Biaya Upgrade Anvil (Base 150, Max Lv.25)
+Level
+Biaya Upgrade
+Total Kumulatif
+Estimasi Waktu Grind
+Lv.0 -> 1
+150 koin
+150 koin
+~3 pesanan NPC dasar
+Lv.1 -> 2
+225 koin
+375 koin
+~5 pesanan NPC dasar
+Lv.2 -> 3
+338 koin
+713 koin
+~1-2 pesanan Raja
+Lv.3 -> 4
+506 koin
+1,219 koin
+~2-3 pesanan Raja
+Lv.4 -> 5
+759 koin
+1,978 koin
+~3-4 pesanan Raja
+Lv.5 -> 6
+1,139 koin
+3,117 koin
+~1-2 hari aktif
+Lv.7 -> 8
+2,563 koin
+8,028 koin
+~3-4 hari aktif
+
+Lv.9 -> 10
+5,767 koin
+~18k koin
+~1 minggu aktif
+Lv.12 -> 13
+19,465 koin
+~65k koin
+~2-3 minggu aktif
+Lv.14 -> 15
+43,796 koin
+~145k koin
+~1-2 bulan aktif
+Lv.15 -> 16
+65,694 koin
+~210k koin
+~2-3 bulan aktif
+Lv.17 -> 18
+148,313 koin
+~520k koin
+~4-5 bulan aktif
+Lv.19 -> 20
+334,704 koin
+~1.2M koin
+~6-8 bulan aktif
+Lv.22 -> 23
+1,702,636 koin
+~6M koin
+~1 tahun aktif
+Lv.24 -> 25 (MAKS)
+3,835,933 koin
+~14M koin
+~1.5-2 tahun aktif
+Dengan scaling ini, level 1-5 bisa dicapai dalam hari pertama, level 6-10 butuh beberapa hari hingga 1 minggu, dan
+level 11-15 adalah konten end-game yang butuh berminggu-minggu. Ini adalah curve yang sehat untuk game idle.
+6.2.3 Hard Gate — Syarat Non-Koin
+ ✦ FITUR BARU — Paksa pemain mainkan konten, bukan hanya grind koin
+Beberapa level kunci tidak bisa diupgrade hanya dengan koin — ada syarat tambahan yang memaksa
+pemain berinteraksi dengan konten game secara organik.
+Bangunan
+Level
+Syarat Tambahan (Selain Koin)
+Anvil
+Lv.3
+Selesaikan minimal 10 pesanan NPC apapun
+Anvil
+Lv.6
+Selesaikan 3 pesanan Raja Aldric
+Anvil
+Lv.10
+Selesaikan 1 pesanan Petualang Misterius
+Furnace
+Lv.3
+Miliki 50 Iron di storage saat upgrade
+Furnace
+Lv.5
+Miliki 20 Gold di storage saat upgrade
+Furnace
+Lv.10
+Miliki 10 Jade + 5 Gold di storage saat upgrade
+Storage
+Lv.5
+Pernah penuhkan storage minimal 1x
+Auto-Miner
+Lv.8
+Workshop average level minimal 5
+Semua bangunan
+Lv.16+
+Selesaikan minimal 5 pesanan Petualang Misterius
+Semua bangunan
+Lv.20+
+Miliki minimal 1 item Tier 3 (Obsidian/Ethereal) di storage
+Semua bangunan
+Lv.23+
+Sudah memulai craft minimal 1 item Legendary Set
+Hard gate level 11+ yang mengunci di balik Prestige memberikan alasan kuat bagi pemain untuk melakukan
+Prestige — bukan hanya demi multiplier, tapi karena ada konten baru yang benar-benar terkunci tanpanya.
+6.2.4 Unlock Baru di Level 11-25
+Level
+Bangunan
+Yang Terbuka
+Lv.11
+Furnace
+Ore: Obsidian mulai bisa ditambang (butuh Prestige 1)
+Lv.11
+Anvil
+Slot crafting ke-6 (bonus post-prestige)
+Lv.12
+Auto-Miner
+Mining rate x1.5 untuk semua ore tier 1 & 2
+
+Lv.13
+Furnace
+Ore: Ethereal Crystal mulai bisa ditambang (butuh Prestige 2)
+Lv.13
+Storage
+Kapasitas +100 per level (dari +50 sebelumnya)
+Lv.14
+Anvil
+Waktu crafting -10% per level (dari -5% sebelumnya)
+Lv.15
+Furnace
+Resep Legendary Set mulai terbuka satu per satu
+Lv.16
+Anvil
+Slot crafting ke-7 (maksimal)
+Lv.17
+Auto-Miner
+Mining rate x2 untuk semua ore
+Lv.18
+Furnace
+Semua resep Tier 3 terbuka
+Lv.20
+Storage
+Kapasitas +200 per level (dari +100 sebelumnya)
+Lv.22
+Anvil
+Waktu crafting -15% per level (dari -10% sebelumnya)
+Lv.25 (MAX)
+Semua
+Gate terakhir sebelum bisa craft item Legendary Set ke-7
+
+7. Dynamic Market & Sistem NPC Dialog
+7.1 Desain Interaksi Popup
+NPC datang dalam bentuk avatar. Ketika ditekan, layar gelap (overlay) dan Surat Pesanan / Popup Kertas
+muncul di tengah. Pemain harus fokus membaca dialog dan kepribadian NPC sebelum memilih [Terima]
+atau [Tolak].
+7.2 Katalog NPC
+NPC
+Tenggat
+Pesanan
+Hadiah
+Target Pemain
+Penduduk Desa
+24 jam
+Item dasar (Pedang)
+100 koin
+Pemula
+Pedagang Pasar
+8 jam
+Campuran dasar-menengah
+~200 koin
+Rutin
+Raja Aldric
+6 jam
+3+ item menengah
+800 koin + Lencana
+Mid-game
+Petualang Misterius
+12 jam
+Item berbasis Kristal/Jade
+500 koin + Blueprint
+End-game
+Emissary Ethereal (NEW)
+24 jam
+Item Obsidian/Ethereal
+3000 koin + Relic
+Furnace Lv.18+
+ ✦ NPC Emissary Ethereal baru untuk post-prestige content
+7.3 Auto-Submit Pesanan (NEW)
+ ✦ FITUR BARU — Quality of Life berbayar
+Normalnya, pemain harus membuka app → buka Market → tap "Serahkan" secara manual setelah
+crafting selesai. Auto-Submit adalah fitur berbayar CiDi Coin yang memungkinkan item otomatis
+diserahkan ke NPC begitu crafting selesai — tanpa perlu membuka app.
+Paket Auto-Submit
+Harga CiDi Coin
+Durasi
+Auto-Submit 1 Pesanan
+30 coin
+Sekali pakai per pesanan aktif
+Auto-Submit 24 Jam
+80 coin
+Semua pesanan selama 24 jam
+Auto-Submit Permanen (Season)
+500 coin
+Berlaku 1 season penuh
+Auto-Submit tidak memberikan keuntungan kompetitif — tidak mempercepat crafting atau menambah reward. Ini
+murni fitur kenyamanan (QoL) untuk pemain sibuk.
+
+8. Monetisasi — CiDi Coin Store
+ ✦ SECTION UPDATED v2.0 — Monetisasi diperluas & disederhanakan
+Strategi monetisasi Pi Forge berfokus pada kenyamanan dan waktu, bukan keunggulan kompetitif. Semua
+item berbayar bersifat non-P2W: tidak ada yang bisa dibeli yang tidak bisa dicapai secara gratis dengan
+waktu lebih lama.
+8.1 Katalog Item Berbayar
+Item
+Harga
+Efek
+Tipe
+Time Skip 15 menit
+25 coin
+Skip waktu crafting 15 menit
+QoL
+Time Skip 1 jam
+80 coin
+Skip waktu crafting 1 jam
+QoL
+Time Skip 4 jam
+250 coin
+Skip waktu crafting 4 jam
+QoL
+Extra Crafting Slot (24 jam)
+120 coin
++1 slot crafting sementara
+QoL
+Storage Expander
+200 coin
++100 kapasitas permanen (max 2x)
+Progression
+Ore Detector (1 jam)
+60 coin
++2% drop rate ore langka 1 jam
+Boost
+Ore Detector (4 jam)
+180 coin
++2% drop rate ore langka 4 jam
+Boost
+Turbo Miner (2 jam)
+100 coin
+2x hasil mining selama 2 jam
+Boost
+Auto-Submit 24 jam
+80 coin
+Serahkan pesanan otomatis 24 jam
+QoL
+Auto-Submit Season
+500 coin
+Auto-submit 1 musim penuh
+QoL
+Season Pass (Premium)
+800 coin
+Unlock semua reward track season
+Season
+8.2 Proyeksi Revenue
+Berdasarkan model CiDi Games (1 USDT = 100 CiDi Coin, revenue share 50%):
+Skenario
+Asumsi
+Revenue Developer/Bulan
+Konservatif
+500 DAU, 5% conversion, avg 150 coin/bulan
+~$37 USDT
+Moderat
+2000 DAU, 8% conversion, avg 200 coin/bulan
+~$160 USDT
+Optimistik
+5000 DAU, 12% conversion, avg 300 coin/bulan
+~$900 USDT
+Kunci pertumbuhan revenue: retensi D7 dan D30. Setiap perbaikan retensi 5% berdampak linear ke semua angka
+di atas.
+
+9. Sistem Anti-Curang
+Sistem pengamanan diletakkan di komponen gameState.jsx (client-side validation):
+clickTimestamps = clickTimestamps.filter(t => now - t < 1000); if
+(clickTimestamps.length >= 8) return; // Block input
+Array menyimpan histori klik dalam 1 detik. Jika 8+ klik terdeteksi dalam 1000ms, fungsi manualMine
+melakukan early return. Ditambah Storage Cap dan Crafting Slot Cap memastikan klik masif tidak
+menghasilkan koin tambahan.
+
+10. Sistem Endgame — Legendary Set & Master Blacksmith
+ ✦ REDESIGNED v5.0 — Prestige & Season dihapus, tujuan akhir yang jelas
+Sistem Prestige dan Season dihapus sepenuhnya. Pi Forge kini memiliki tujuan akhir yang konkret dan
+memuaskan: mencapai semua bangunan level 25 (maks) DAN berhasil meng-craft seluruh 7 item dalam
+Legendary Forge Set. Pemain selalu tahu seberapa jauh progress mereka dan apa yang harus dilakukan
+selanjutnya — tidak ada reset, tidak ada beban maintenance season.
+10.1 Dua Pilar Tujuan Akhir
+Pilar
+Target
+Estimasi Waktu
+Reward
+Pilar 1
+Semua 4 bangunan mencapai Level 25
+1-2 tahun aktif
+Badge "Workshop Master" + Title
+Pilar 2
+Craft semua 7 item Legendary Set
+1.5-2 tahun aktif
+Badge "Forge God" + Ending Screen
+FINAL
+Kedua pilar selesai
+~2 tahun aktif
+"Master Blacksmith" — Title Permanen Tertinggi
+10.2 Legendary Forge Set — 7 Item
+Legendary Forge Set adalah koleksi 7 item paling langka di Pi Forge. Setiap item membutuhkan material
+tier tertinggi, waktu craft yang sangat lama, dan beberapa membutuhkan Blueprint langka dari NPC
+Petualang Misterius. Item harus di-craft secara berurutan — item berikutnya baru terbuka setelah item
+sebelumnya selesai.
+#
+Nama Item
+Material
+Waktu Craft
+Harga Jual
+Unlock Syarat
+1
+Gauntlets of Creation
+5 Gold, 4 Obsidian
+1,200 dtk
+8,000 koin
+Furnace Lv.15
+2
+Greaves of the Ancients
+4 Jade, 5 Obsidian
+1,500 dtk
+10,000 koin
+Item #1 selesai
+3
+Helm of Eternity
+6 Jade, 3 Ethereal
+1,800 dtk
+14,000 koin
+Item #2 selesai
+4
+Shield of the Last Forge
+5 Gold, 4 Jade, 3 Obsidian
+2,100 dtk
+18,000 koin
+Item #3 selesai
+5
+Armor of the Forge God
+6 Obsidian, 4 Ethereal
+2,400 dtk
+24,000 koin
+Item #4 selesai
+6
+Sword of Reckoning
+5 Ethereal, 1 Blueprint Langka
+3,000 dtk
+35,000 koin
+Item #5 selesai
+7
+Crown of the Master Smith
+4 Gold, 4 Jade, 4 Obsidian,
+3 Ethereal, 2 Blueprint Langka
+6,000 dtk
+80,000 koin
+Anvil Lv.25 + Item #6 selesai
+Catatan: Item Legendary Set tidak bisa dijual ke NPC biasa. Harga jual di atas adalah nilai estimasi jika dijual ke
+NPC Emissary khusus yang muncul setelah item selesai di-craft. Ini memastikan reward terasa sepadan dengan
+effort.
+10.3 Ending Screen & Reward Akhir
+Ketika pemain berhasil menyelesaikan Crown of the Master Smith DAN semua bangunan sudah level 25,
+game menampilkan layar khusus:
+ Animasi forge besar dengan semua 7 item Legendary terpajang
+ Statistik lengkap: total waktu bermain, total koin diperoleh, total pesanan selesai
+ Title permanen "Master Blacksmith" tampil di profil Pi Network
+
+ Share card otomatis dibuat untuk dibagikan ke komunitas Pi
+ Mode "New Game+" terbuka — main ulang dengan bonus visual workshop mewah
+ Badge eksklusif "Forge God" yang tidak bisa didapat cara lain
+New Game+ tidak mereset leaderboard atau profil — hanya memberikan pengalaman visual yang lebih kaya untuk
+pemain yang ingin terus bermain setelah ending.
+10.4 Progress Tracker — Selalu Tahu Posisi
+Karena tidak ada prestige/season, pemain perlu UI yang jelas untuk tahu seberapa jauh mereka dari
+tujuan akhir. Workshop Progress Screen menampilkan:
+ Progress bar per bangunan: "Anvil Lv.18 / 25 — butuh 148,313 koin lagi"
+ Checklist Legendary Set: 3/7 item selesai, item berikutnya terbuka
+ Estimasi waktu realistis berdasarkan rate koin saat ini
+ Highlight item/upgrade berikutnya yang paling direkomendasikan
+
+11. Profil Player — Pi Network & CiDi Games
+ ✦ SECTION BARU v2.0
+Setiap pemain Pi Forge memiliki profil terintegrasi yang menggabungkan identitas Pi Network (username
+Pi unik) dengan data pencapaian di CiDi Games. Profil ini bisa dilihat oleh pemain lain.
+11.1 Komponen Profil
+Komponen
+Sumber Data
+Visibilitas
+Username
+Pi Network Account
+Publik
+Avatar
+Pi Network / Custom CiDi
+Publik
+Workshop Level
+Data game Pi Forge
+Publik
+Prestige Stars
+Data game Pi Forge
+Publik
+Badge Pencapaian
+NPC selesai, Season wins
+Publik
+Best Season Rank
+Leaderboard CiDi Games
+Publik
+Item Terbaik Dibuat
+Histori crafting
+Opsional
+Total Koin Diperoleh
+Statistik lifetime
+Privat
+11.2 Badge Sistem
+Badge ditampilkan di profil dan di samping username di Global Chat (season berikutnya). Badge bersifat
+permanen setelah didapat.
+Badge
+Cara Mendapat
+Rarity
+■ Raja Aldric ✓
+Selesaikan pesanan Raja Aldric
+Uncommon
+■ Blueprint Hunter
+Dapatkan 5 blueprint berbeda
+Rare
+■ Prestige I - V
+Capai masing-masing level prestige
+Rare - Legendary
+■ Season Champion
+Raih #1 di akhir season
+Legendary
+■ Speedrunner
+Prestige dalam waktu tercepat
+Rare
+■ Ethereal Crafter
+Buat item Ethereal pertama
+Legendary
+
+12. Social Loop & Viral Mechanics
+ ✦ SECTION BARU v2.0 — Kunci retensi jangka panjang
+Game idle yang bertahan lama hampir selalu memiliki elemen sosial. Pi Forge menambahkan lapisan
+sosial yang ringan namun efektif untuk mendorong viral growth dan meningkatkan retensi D7-D30.
+12.1 Gift System
+Pemain bisa mengirim sejumlah kecil material (ore) ke sesama pemain Pi Network. Batasan: maksimal 3
+gift per hari, maksimal 10 ore per jenis per gift. Tidak bisa digunakan untuk transfer besar yang merusak
+ekonomi game.
+12.2 Co-Op Order (Guild Lite)
+Sesekali muncul "Pesanan Kerajaan Besar" yang membutuhkan kontribusi dari 2-3 pemain sekaligus.
+Pemain bisa mengajak teman Pi-nya untuk bergabung. Reward dibagi proporsional. Ini mendorong
+pemain aktif mengajak teman masuk game.
+12.3 Flex & Share
+Setiap kali pemain menyelesaikan item legendaris atau mencapai milestone prestige, game menghasilkan
+gambar share card otomatis yang bisa dibagikan ke komunitas Pi Network atau media sosial. Share card
+menampilkan item, badge, dan username.
+
+13. Tutorial Interaktif Hari Pertama
+ ✦ SECTION BARU v2.0 — Kunci retensi D1
+Retensi hari pertama (D1) adalah metrik paling kritis. Tutorial dirancang sebagai pengalaman naratif,
+bukan instruksi kering.
+Tahap
+Durasi
+Konten
+Tujuan
+1 — Sambutan
+30 detik
+Penduduk Desa minta pedang pertama
+"Tolong tuan pandai besi!"
+Konteks naratif instan
+2 — Mining
+1 menit
+Tap tambang dipandu highlight
+Dapat Stone & Iron pertama
+Habituasi mekanik inti
+3 — Crafting
+1 menit
+Buat Pedang Besi pertama
+Crafting slot menyala animasi
+Closure & reward loop
+4 — Market
+30 detik
+Serahkan ke NPC, terima 50 koin
+"Terima kasih tuan pandai besi!"
+Dopamine hit pertama
+5 — Upgrade
+30 detik
+Gunakan koin untuk upgrade Miner
+Tampilkan efek +resource
+Tunjukkan progression
+6 — Selesai
+30 detik
+Unlock semua menu
+Hadiah: 100 koin + 50 Stone gratis
+Rasa accomplished
+UI unlock secara bertahap selama tutorial. Pemain tidak melihat semua menu sekaligus — ini mencegah
+overwhelm dan meningkatkan focus.
+
+14. Peta Jalan Jangka Panjang — Model Evergreen
+14.1 Filosofi Tanpa Season
+Season dihapus sepenuhnya karena menimbulkan beban maintenance yang besar bagi solo developer
+dan menciptakan tekanan buatan bagi pemain. Pi Forge menganut filosofi "evergreen" — konten tidak
+pernah kadaluarsa, pemain baru dan lama bermain di dunia yang sama, dan progress tidak pernah
+direset.
+Aspek
+Model Season (Dihapus)
+Model Evergreen (Sekarang)
+Leaderboard
+Reset tiap season
+Permanen, berdasarkan total koin & item
+Blueprint
+Kadaluarsa tiap season
+Permanen setelah didapat
+Badge
+Sebagian hilang
+Semua badge permanen
+Beban developer
+Konten baru tiap 1-2 bulan
+Update opsional, tidak wajib rutin
+Pemain baru
+Tertinggal jauh
+Bisa mulai kapan saja, progress fair
+14.2 Update Konten Opsional (Bukan Season)
+Developer bebas menambah konten tanpa terikat jadwal season. Contoh update opsional yang bisa
+dilakukan kapan saja:
+Tipe Update
+Contoh
+Effort Developer
+NPC Baru
+Tambah 1-2 NPC dengan dialog unik
+Rendah
+Resep Baru
+Tambah item baru di tier yang sudah ada
+Rendah
+Monster Baru
+Tambah 1 monster dengan mekanik unik
+Sedang
+Event Sementara
+NPC spesial muncul 1 minggu (tanpa reset)
+Sedang
+Ore Baru
+Tambah material tier baru jika diperlukan
+Tinggi
+14.3 Proyeksi Retensi (Estimasi)
+Metrik
+GDD v1.0 Awal
+GDD v5.0 Final
+D1 Retention
+~40%
+~60% (tutorial interaktif)
+D7 Retention
+~10%
+~25% (social loop + ore tier)
+D30 Retention
+~3%
+~12% (tujuan akhir jelas + evergreen)
+D90 Retention
+~1%
+~6% (Legendary Set sebagai long-term goal)
+Session Length
+~5 menit
+~8-12 menit (ore variety + monster)
+Lifetime Value
+Rendah
+Tinggi — pemain aktif 1-2 tahun
+
+15. Monster Threat System
+ ✦ SECTION BARU v3.0 — Perlambat progres, drain koin natural
+Monster Threat System menambahkan lapisan tension yang membuat pemain tidak bisa idle terlalu lama
+tanpa konsekuensi. Sistem ini secara alami memperlambat akumulasi koin karena pemain harus memilih:
+tap gratis (butuh perhatian) atau bayar Bodyguard (drain koin in-game). Tidak ada CiDi Coin eksternal
+yang terlibat — semua diselesaikan dengan koin hasil gameplay.
+15.1 Frekuensi & Aturan Kemunculan
+ Monster muncul acak setiap 6-12 jam (jeda minimum 6 jam antar serangan)
+ Tidak akan muncul dalam 30 menit pertama setelah login — pemain punya waktu crafting dulu
+ Hanya 1 monster aktif dalam satu waktu (kecuali Prestige 2+ yang bisa 2 sekaligus)
+ Pemain mendapat notifikasi push saat monster muncul
+ Countdown sebelum efek aktif memberi waktu reaksi yang fair
+15.2 Katalog Monster & Efek
+Monster
+Efek Jika Tidak Diusir
+Tap untuk Usir
+Waktu Sebelum Kena Efek
+Goblin Thief
+Curi 15-25% ore dari storage
+15 tap
+2 jam
+Furnace Imp
+Crafting melambat 50% selama 1 jam
+20 tap
+3 jam
+Wind Wraith
+Blokir Auto-Miner selama 2 jam
+10 tap
+4 jam
+Stone Crawler
+Curi ore + lambatkan mining 30%
+25 tap
+2 jam
+Shadow Watcher
+Sembunyikan Market selama 3 jam
+30 tap
+6 jam
+Ember Drake (Prestige 1+)
+Curi ore + blokir 1 crafting slot 2 jam
+35 tap
+2 jam
+15.3 Mekanisme Tap — Timing-Based
+Mengusir monster BUKAN dengan spam tap biasa. Sistem menggunakan ritme tap berbasis timing untuk
+mencegah auto-clicker dan membuat interaksi lebih engaging:
+ Muncul lingkaran indikator yang berkedip dengan interval acak (0.5-1.5 detik)
+ Pemain harus tap SAAT indikator menyala (timing window ~0.4 detik)
+ Tap di luar timing window: progress berkurang 1 (bukan reset total)
+ Berhasil tap tepat waktu: progress +1 menuju jumlah tap yang dibutuhkan
+ Progress bar ditampilkan visual agar pemain tahu seberapa dekat selesai
+Desain timing-based ini memastikan bot/auto-clicker tidak bisa mengusir monster secara otomatis, karena butuh
+reaksi manusia yang genuine.
+15.4 Sistem Bodyguard & Mercenary
+Pemain yang tidak ingin repot tap bisa menyewa Bodyguard menggunakan koin in-game. Harga
+Bodyguard naik seiring rata-rata level workshop (Workshop Average Level = rata-rata level 4 bangunan
+
+utama), karena monster yang dihadapi juga makin kuat. Ini adalah drain koin yang natural dan tidak terasa
+seperti punishment.
+Formula harga Bodyguard:
+Cost = BaseCost * Math.pow(1.08, WorkshopAvgLevel)
+Bodyguard
+Durasi Jaga
+Harga Base
+Harga di Avg Lv.5
+Harga di Avg Lv.10
+Village Guard
+6 jam
+80 koin
+~118 koin
+~173 koin
+Mercenary Knight
+12 jam
+150 koin
+~220 koin
+~324 koin
+Elite Guardian
+24 jam
+280 koin
+~411 koin
+~604 koin
+Arcane Warden
+48 jam
+500 koin
+~735 koin
+~1,079 koin
+Saat Bodyguard aktif: semua monster yang muncul langsung diusir otomatis. Pemain tetap mendapat notifikasi
+"Monster muncul tapi berhasil diusir Guard-mu!" agar tetap terasa ada ancaman.
+15.5 Scaling Monster Seiring Prestige
+Monster ikut berkembang setelah setiap Prestige untuk menjaga tension tetap relevan bagi pemain
+veteran.
+Prestige Level
+Perubahan Monster
+Workshop Avg Lv.1-8
+Normal — katalog monster dasar (Goblin, Wind Wraith, Furnace Imp)
+Workshop Avg Lv.9-14
+Durasi efek +30% jika tidak diusir, Stone Crawler aktif
+Workshop Avg Lv.15-19
+Shadow Watcher & Ember Drake aktif, 10% chance 2 monster sekaligus
+Workshop Avg Lv.20-24
+Semua monster aktif, durasi efek +50%, Boss Monster muncul
+Workshop Avg Lv.25 (MAX)
+Boss Monster lebih kuat, reward Boss x2 lipat
+15.6 Boss Monster — Event Season (Prestige 3+)
+ ✦ EVENT KHUSUS — 1x per bulan, hanya untuk Workshop Avg Lv.20+
+Workshop Raider Boss adalah ancaman terbesar yang muncul sekali per season khusus untuk pemain
+yang sudah Prestige 3 atau lebih.
+ Tidak bisa diusir dengan tap biasa — butuh item "Heroic Weapon" yang harus di-craft
+ Heroic Weapon: 5 Iron + 3 Obsidian + 1 Blueprint Langka (waktu craft: 600 detik)
+ Jika tidak dikalahkan dalam 12 jam: semua crafting slot terkunci selama 6 jam
+ Jika berhasil dikalahkan: Blueprint Langka + 500 koin bonus + Badge "Boss Slayer"
+ Notifikasi khusus dikirim H-24 sebelum Boss muncul sebagai peringatan
+Boss Monster dirancang sebagai event komunitas — pemain bisa saling berbagi strategi di chat untuk
+mempersiapkan Heroic Weapon tepat waktu.
+15.7 Notifikasi Push
+
+Notifikasi push adalah komponen kritis karena game idle dimainkan saat tidak aktif. Monster harus terasa
+"mengancam" bahkan saat app tertutup.
+Trigger
+Pesan Notifikasi
+Monster muncul
+"Goblin Thief mengintai bengkelmu! Usir dalam 2 jam atau ore-mu dicuri!"
+30 menit sebelum efek aktif
+"Waspada! Goblin Thief akan menyerang dalam 30 menit!"
+Efek aktif (tidak diusir)
+"Goblin Thief berhasil mencuri 20% ore-mu. Login untuk memulihkan!"
+Guard hampir habis (1 jam)
+"Elite Guardian-mu habis dalam 1 jam. Perpanjang sekarang?"
+Boss Monster H-24
+"PERINGATAN: Workshop Raider Boss akan muncul besok. Siapkan Heroic Weapon!"
+15.8 Dampak ke Ekonomi Game
+Monster Threat System dirancang sebagai coin sink yang organic:
+ Pemain aktif: pilih tap (gratis, butuh waktu) → koin tidak terkuras
+ Pemain sibuk: bayar Bodyguard (drain koin signifikan) → koin tidak menumpuk
+ Pemain lalai: kehilangan ore (harus re-mine) → progres melambat alami
+ Net effect: inflasi koin terkontrol, game bertahan lebih lama tanpa konten baru
+ Pi Forge — GDD v6.0 | Hak Cipta & Desain © 2026 Aigames / CiDi Games
+ Dokumen ini adalah Master Blueprint untuk pengembangan perangkat lunak. Dilarang mendistribusikan tanpa izin.
