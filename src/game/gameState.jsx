@@ -7,17 +7,17 @@ const GameContext = createContext();
 export const useGame = () => useContext(GameContext);
 
 export const getMaxSlots = (anvilLevel, rentedSlotsExpiry) => {
-    let base = 2;
-    if (anvilLevel >= 16) base = 7;
-    else if (anvilLevel >= 11) base = 6;
-    else if (anvilLevel >= 10) base = 5;
-    else if (anvilLevel >= 7) base = 4;
-    else if (anvilLevel >= 3) base = 3;
+  let base = 2;
+  if (anvilLevel >= 16) base = 7;
+  else if (anvilLevel >= 11) base = 6;
+  else if (anvilLevel >= 10) base = 5;
+  else if (anvilLevel >= 7) base = 4;
+  else if (anvilLevel >= 3) base = 3;
 
-    if (rentedSlotsExpiry && Date.now() < rentedSlotsExpiry) {
-        return base * 2;
-    }
-    return base;
+  if (rentedSlotsExpiry && Date.now() < rentedSlotsExpiry) {
+    return base * 2;
+  }
+  return base;
 };
 
 export const GameProvider = ({ children }) => {
@@ -34,14 +34,14 @@ export const GameProvider = ({ children }) => {
         // Merge missing ores/items
         // Migrate activeCrafts to have proper dates if corrupted
         const activeCrafts = (parsed.activeCrafts || []).map(c => ({
-            ...c,
-            startTime: c.startTime || Date.now(),
-            endTime: c.endTime || Date.now() + 10000
+          ...c,
+          startTime: c.startTime || Date.now(),
+          endTime: c.endTime || Date.now() + 10000
         }));
-        
-        return { 
-          ...INITIAL_STATE, 
-          ...parsed, 
+
+        return {
+          ...INITIAL_STATE,
+          ...parsed,
           activeCrafts,
           ores: { ...INITIAL_STATE.ores, ...(parsed.ores || {}) },
           items: { ...INITIAL_STATE.items, ...(parsed.items || {}) }
@@ -71,51 +71,51 @@ export const GameProvider = ({ children }) => {
   }, []);
 
   const calculateMiningYield = useCallback((totalMined, activeAreaId) => {
-      const yieldResult = {};
-      Object.keys(INITIAL_STATE.ores).forEach(k => yieldResult[k] = 0);
-      
-      const area = AREAS[activeAreaId];
-      if (!area) return yieldResult;
+    const yieldResult = {};
+    Object.keys(INITIAL_STATE.ores).forEach(k => yieldResult[k] = 0);
 
-      let totalWeight = 0;
-      for (const weight of Object.values(area.rates)) {
-          totalWeight += weight;
-      }
+    const area = AREAS[activeAreaId];
+    if (!area) return yieldResult;
 
-      for (const [oreId, weight] of Object.entries(area.rates)) {
-          const expected = totalMined * (weight / totalWeight);
-          yieldResult[oreId] = expected;
-      }
-      return yieldResult;
+    let totalWeight = 0;
+    for (const weight of Object.values(area.rates)) {
+      totalWeight += weight;
+    }
+
+    for (const [oreId, weight] of Object.entries(area.rates)) {
+      const expected = totalMined * (weight / totalWeight);
+      yieldResult[oreId] = expected;
+    }
+    return yieldResult;
   }, []);
 
   // Offline earnings calculation
   useEffect(() => {
     const now = Date.now();
     const timeDiff = (now - state.lastSaveTime) / 1000;
-    
+
     if (timeDiff > 60 && state.upgrades.miner > 0) {
       const minerRate = UPGRADES.miner.effect(state.upgrades.miner);
       const totalMined = minerRate * timeDiff;
-      
+
       const premiumBonus = Math.min(state.storageExpanders || 0, 2) * 100;
       const capacity = UPGRADES.storage.effect(state.upgrades.storage) + premiumBonus;
       const currentTotal = Object.values(state.ores).reduce((a, b) => a + Math.floor(b), 0);
       const spaceLeft = Math.max(0, capacity - currentTotal);
-      
+
       const actualEarned = Math.min(totalMined, spaceLeft);
-      
+
       if (actualEarned > 0) {
         const yields = calculateMiningYield(actualEarned, state.activeAreaId || 'area_1');
-        
+
         setOfflineEarnings(yields); // Show raw numbers or floor them in UI
-        
+
         setState(s => {
           const newOres = { ...s.ores };
           Object.keys(yields).forEach(k => {
-              newOres[k] += yields[k];
+            newOres[k] += yields[k];
           });
-          
+
           return {
             ...s,
             ores: newOres,
@@ -129,7 +129,7 @@ export const GameProvider = ({ children }) => {
   // Game Loop
   useEffect(() => {
     let lastTick = Date.now();
-    
+
     const gameLoop = setInterval(() => {
       const now = Date.now();
       const delta = (now - lastTick) / 1000;
@@ -143,30 +143,36 @@ export const GameProvider = ({ children }) => {
         if (s.upgrades.miner > 0) {
           let minerRate = UPGRADES.miner.effect(s.upgrades.miner);
           if (s.turboMinerExpiry && Date.now() < s.turboMinerExpiry) minerRate *= 2;
-          
+
           // Debuffs
           if (s.monster?.activeDebuff === 'wraith') minerRate = 0;
           if (s.monster?.activeDebuff === 'crawler') minerRate *= 0.7;
 
           const minedThisTick = minerRate * delta;
-          
+
           const premiumBonus = Math.min(s.storageExpanders || 0, 2) * 100;
           const capacity = UPGRADES.storage.effect(s.upgrades.storage) + premiumBonus;
           const currentTotal = Object.values(s.ores).reduce((a, b) => a + Math.floor(b), 0);
-          
-          if (currentTotal < capacity) {
-             const yields = calculateMiningYield(minedThisTick, s.activeAreaId || 'area_1');
-             const newOres = { ...s.ores };
-             Object.keys(yields).forEach(k => newOres[k] += yields[k]);
-             
-             newState.ores = newOres;
-             stateChanged = true;
-             
-             // Track if storage becomes full
-             const newTotal = Object.values(newOres).reduce((a, b) => a + Math.floor(b), 0);
-             if (newTotal >= capacity && currentTotal < capacity) {
-                 newState.stats = { ...newState.stats, storageFilledCount: newState.stats.storageFilledCount + 1 };
-             }
+
+          // 🛠️ KODE FIX OVERFLOW: Hitung sisa ruang kosong yang tersedia secara ketat
+          const spaceLeft = capacity - currentTotal;
+
+          if (spaceLeft > 0) {
+            // Ambil nilai terkecil: laju tambang asli ATAU sisa ruang gudang yang tersedia (Clamping)
+            const actualMinedThisTick = Math.min(minedThisTick, spaceLeft);
+
+            const yields = calculateMiningYield(actualMinedThisTick, s.activeAreaId || 'area_1');
+            const newOres = { ...s.ores };
+            Object.keys(yields).forEach(k => newOres[k] += yields[k]);
+
+            newState.ores = newOres;
+            stateChanged = true;
+
+            // Track jika storage penuh
+            const newTotal = Object.values(newOres).reduce((a, b) => a + Math.floor(b), 0);
+            if (newTotal >= capacity && currentTotal < capacity) {
+              newState.stats = { ...newState.stats, storageFilledCount: newState.stats.storageFilledCount + 1 };
+            }
           }
         }
 
@@ -191,36 +197,37 @@ export const GameProvider = ({ children }) => {
         // Monster Logic
         const nowMs = Date.now();
         if (newState.monster && !newState.monster.activeMonster && !newState.monster.activeDebuff) {
-            if (nowMs >= newState.monster.nextSpawnTime) {
-                const avgLevel = Math.floor((s.upgrades.miner + s.upgrades.anvil + s.upgrades.furnace + s.upgrades.storage) / 4);
-                if (newState.bodyguard && newState.bodyguard.expiresAt > nowMs) {
-                    newState.monster.nextSpawnTime = nowMs + 10 * 60 * 1000;
-                } else {
-                    newState.monster.activeMonster = getRandomMonster(avgLevel);
-                }
-                stateChanged = true;
+          if (nowMs >= newState.monster.nextSpawnTime) {
+            const avgLevel = Math.floor((s.upgrades.miner + s.upgrades.anvil + s.upgrades.furnace + s.upgrades.storage) / 4);
+            if (newState.bodyguard && newState.bodyguard.expiresAt > nowMs) {
+              newState.monster.nextSpawnTime = nowMs + 10 * 60 * 1000;
+            } else {
+              newState.monster.activeMonster = getRandomMonster(avgLevel);
             }
-        } else if (newState.monster && newState.monster.activeMonster) {
-            if (nowMs >= newState.monster.activeMonster.expiresAt) {
-                const type = newState.monster.activeMonster.id;
-                if (type === 'goblin' || type === 'crawler' || type === 'drake') {
-                    const newOres = { ...newState.ores };
-                    Object.keys(newOres).forEach(k => {
-                        newOres[k] = Math.max(0, Math.floor(newOres[k] * 0.8));
-                    });
-                    newState.ores = newOres;
-                }
-                newState.monster.activeDebuff = type;
-                newState.monster.debuffExpiresAt = nowMs + 1800 * 1000; // 30 min debuff
-                newState.monster.activeMonster = null;
-                newState.monster.nextSpawnTime = nowMs + 10 * 60 * 1000; // Next in 10 mins
-                stateChanged = true;
-            }
-        }
-        
-        if (newState.monster && newState.monster.activeDebuff && nowMs >= newState.monster.debuffExpiresAt) {
-            newState.monster.activeDebuff = null;
             stateChanged = true;
+          }
+        } else if (newState.monster && newState.monster.activeMonster) {
+          if (nowMs >= newState.monster.activeMonster.expiresAt) {
+            const type = newState.monster.activeMonster.id;
+            if (type === 'goblin' || type === 'crawler' || type === 'drake') {
+              const newOres = { ...newState.ores };
+              Object.keys(newOres).forEach(k => {
+                newOres[k] = Math.max(0, Math.floor(newOres[k] * 0.8));
+              });
+              newState.ores = newOres;
+            }
+            newState.monster.activeDebuff = type;
+            newState.monster.debuffExpiresAt = nowMs + 1800 * 1000; // 30 min debuff
+            newState.monster.activeMonster = null;
+            const randomMinutes = Math.random() * 15 + 30;
+            newState.monster.nextSpawnTime = nowMs + randomMinutes * 60 * 1000;
+            stateChanged = true;
+          }
+        }
+
+        if (newState.monster && newState.monster.activeDebuff && nowMs >= newState.monster.debuffExpiresAt) {
+          newState.monster.activeDebuff = null;
+          stateChanged = true;
         }
 
         return stateChanged ? newState : s;
@@ -253,13 +260,13 @@ export const GameProvider = ({ children }) => {
     setState(s => {
       if ((s.cidiCoins || 0) < cost) return s;
       const newState = { ...s, cidiCoins: s.cidiCoins - cost };
-      
+
       if (itemId === 'skip_15m' || itemId === 'skip_1h' || itemId === 'skip_4h') {
         const ms = itemId === 'skip_15m' ? 15 * 60 * 1000 : itemId === 'skip_1h' ? 60 * 60 * 1000 : 4 * 60 * 60 * 1000;
-        newState.activeCrafts = newState.activeCrafts.map(c => ({ 
-            ...c, 
-            startTime: c.startTime - ms, 
-            endTime: c.endTime - ms 
+        newState.activeCrafts = newState.activeCrafts.map(c => ({
+          ...c,
+          startTime: c.startTime - ms,
+          endTime: c.endTime - ms
         }));
       } else if (itemId === 'storage_exp') {
         newState.storageExpanders = (newState.storageExpanders || 0) + 1;
@@ -280,11 +287,16 @@ export const GameProvider = ({ children }) => {
       const premiumBonus = Math.min(s.storageExpanders || 0, 2) * 100;
       const capacity = UPGRADES.storage.effect(s.upgrades.storage) + premiumBonus;
       const currentTotal = Object.values(s.ores).reduce((a, b) => a + Math.floor(b), 0);
-      
-      if (currentTotal >= capacity) return s;
-      
+
+      // KODE PERBAIKAN: Hitung sisa kapasitas ketat untuk klik manual
+      const spaceLeft = capacity - currentTotal;
+      if (spaceLeft <= 0) return s; // Tolak mentah-mentah jika sudah penuh
+
       let finalAmount = amount;
       if (s.turboMinerExpiry && Date.now() < s.turboMinerExpiry) finalAmount *= 2;
+
+      // Pangkas nilai ketukan koin agar pas dengan batas kapasitas maksimal gudang
+      finalAmount = Math.min(finalAmount, spaceLeft);
 
       const yields = calculateMiningYield(finalAmount, s.activeAreaId || 'area_1');
       const newOres = { ...s.ores };
@@ -303,27 +315,27 @@ export const GameProvider = ({ children }) => {
     setState(s => {
       const upgrade = UPGRADES[upgradeId];
       const currentLevel = s.upgrades[upgradeId] || 0;
-      
+
       if (currentLevel >= 25) return s; // Max level 25 cap
-      
+
       const nextLevel = currentLevel + 1;
-      
+
       // Hard Gates Check
       if (HARD_GATES[upgradeId] && HARD_GATES[upgradeId][nextLevel]) {
-          const gate = HARD_GATES[upgradeId][nextLevel];
-          let passed = true;
-          if (gate.type === 'orders' && s.stats.totalOrdersCompleted < gate.amount) passed = false;
-          if (gate.type === 'ore' && s.ores[gate.ore] < gate.amount) passed = false;
-          if (gate.type === 'storage_full' && s.stats.storageFilledCount < gate.amount) passed = false;
-          if (gate.type === 'avg_level') {
-              const avg = Object.values(s.upgrades).reduce((a, b) => a + b, 0) / 4;
-              if (avg < gate.amount) passed = false;
-          }
-          
-          if (!passed) {
-              setUpgradeError(gate.msg);
-              return s;
-          }
+        const gate = HARD_GATES[upgradeId][nextLevel];
+        let passed = true;
+        if (gate.type === 'orders' && s.stats.totalOrdersCompleted < gate.amount) passed = false;
+        if (gate.type === 'ore' && s.ores[gate.ore] < gate.amount) passed = false;
+        if (gate.type === 'storage_full' && s.stats.storageFilledCount < gate.amount) passed = false;
+        if (gate.type === 'avg_level') {
+          const avg = Object.values(s.upgrades).reduce((a, b) => a + b, 0) / 4;
+          if (avg < gate.amount) passed = false;
+        }
+
+        if (!passed) {
+          setUpgradeError(gate.msg);
+          return s;
+        }
       }
 
       const cost = Math.floor(upgrade.baseCost * Math.pow(1.5, currentLevel));
@@ -349,8 +361,8 @@ export const GameProvider = ({ children }) => {
       if (s.activeCrafts.length >= maxSlots) return s;
 
       const hasMaterials = Object.entries(materials).every(([mat, amount]) => {
-          if (mat === 'blueprint') return (s.items['blueprint'] || 0) >= amount;
-          return Math.floor(s.ores[mat] || 0) >= amount;
+        if (mat === 'blueprint') return (s.items['blueprint'] || 0) >= amount;
+        return Math.floor(s.ores[mat] || 0) >= amount;
       });
 
       if (!hasMaterials) return s;
@@ -358,13 +370,13 @@ export const GameProvider = ({ children }) => {
       const newOres = { ...s.ores };
       const newItems = { ...s.items };
       Object.entries(materials).forEach(([mat, amount]) => {
-          if (mat === 'blueprint') newItems[mat] = (newItems[mat] || 0) - amount;
-          else newOres[mat] -= amount;
+        if (mat === 'blueprint') newItems[mat] = (newItems[mat] || 0) - amount;
+        else newOres[mat] -= amount;
       });
 
       const speedBoostReduction = UPGRADES.anvil.effect(s.upgrades.anvil || 0);
       let actualTimeMs = (craftTimeSec * 1000) * ((100 - speedBoostReduction) / 100);
-      
+
       if (s.monster?.activeDebuff === 'imp') actualTimeMs *= 1.5; // 50% slower
 
       return {
@@ -385,125 +397,126 @@ export const GameProvider = ({ children }) => {
   }, []);
 
   const sellItem = useCallback((itemId, price, amount = 1) => {
-     setState(s => {
-        if (s.items[itemId] >= amount) {
-           return {
-              ...s,
-              items: {
-                 ...s.items,
-                 [itemId]: s.items[itemId] - amount
-              },
-              coins: s.coins + (price * amount)
-           }
+    setState(s => {
+      if (s.items[itemId] >= amount) {
+        return {
+          ...s,
+          items: {
+            ...s.items,
+            [itemId]: s.items[itemId] - amount
+          },
+          coins: s.coins + (price * amount)
         }
-        return s;
-     })
+      }
+      return s;
+    })
   }, []);
-  
+
   const acceptOrder = useCallback((orderId) => {
-      setState(s => {
-          const newOrders = s.orders.map(o => {
-              if (o.id === orderId) {
-                  return {
-                      ...o,
-                      status: 'active',
-                      expiresAt: Date.now() + o.durationHours * 60 * 60 * 1000
-                  };
-              }
-              return o;
-          });
-          return { ...s, orders: newOrders };
+    setState(s => {
+      const newOrders = s.orders.map(o => {
+        if (o.id === orderId) {
+          return {
+            ...o,
+            status: 'active',
+            expiresAt: Date.now() + o.durationHours * 60 * 60 * 1000
+          };
+        }
+        return o;
       });
+      return { ...s, orders: newOrders };
+    });
   }, []);
 
   const fulfillOrder = useCallback((orderId, rewardCoins) => {
-      setState(s => {
-          const order = s.orders.find(o => o.id === orderId);
-          if (!order) return s;
-          
-          const hasItems = Object.entries(order.requirements).every(
-              ([item, amt]) => s.items[item] >= amt
-          );
-          
-          if (!hasItems) return s;
-          
-          const newItems = { ...s.items };
-          Object.entries(order.requirements).forEach(([item, amt]) => {
-              newItems[item] -= amt;
-          });
-          
-          if (order.extraReward && order.extraReward.toLowerCase().includes('blueprint')) {
-              newItems['blueprint'] = (newItems['blueprint'] || 0) + 1;
-          }
-          
-          return {
-              ...s,
-              items: newItems,
-              coins: s.coins + rewardCoins,
-              stats: { ...s.stats, totalOrdersCompleted: s.stats.totalOrdersCompleted + 1 },
-              orders: s.orders.filter(o => o.id !== orderId)
-          };
+    setState(s => {
+      const order = s.orders.find(o => o.id === orderId);
+      if (!order) return s;
+
+      const hasItems = Object.entries(order.requirements).every(
+        ([item, amt]) => s.items[item] >= amt
+      );
+
+      if (!hasItems) return s;
+
+      const newItems = { ...s.items };
+      Object.entries(order.requirements).forEach(([item, amt]) => {
+        newItems[item] -= amt;
       });
+
+      if (order.extraReward && order.extraReward.toLowerCase().includes('blueprint')) {
+        newItems['blueprint'] = (newItems['blueprint'] || 0) + 1;
+      }
+
+      return {
+        ...s,
+        items: newItems,
+        coins: s.coins + rewardCoins,
+        stats: { ...s.stats, totalOrdersCompleted: s.stats.totalOrdersCompleted + 1 },
+        orders: s.orders.filter(o => o.id !== orderId)
+      };
+    });
   }, []);
 
   const updateOrders = useCallback((newOrders) => {
-      setState(s => ({ 
-          ...s, 
-          orders: newOrders,
-          lastOrderResetTime: Date.now()
-      }));
+    setState(s => ({
+      ...s,
+      orders: newOrders,
+      lastOrderResetTime: Date.now()
+    }));
   }, []);
 
   const repelMonster = useCallback((success) => {
-      setState(s => {
-          if (!s.monster?.activeMonster) return s;
-          const monster = { ...s.monster };
-          const active = { ...monster.activeMonster };
-          
-          if (success) active.tapsDone += 1;
-          // no penalty for failing to make it easier as requested
-          
-          if (active.tapsDone >= active.tapsNeeded) {
-              monster.activeMonster = null;
-              monster.nextSpawnTime = Date.now() + 5 * 60 * 1000; // 5 mins until next for demo
-          } else {
-              monster.activeMonster = active;
-          }
-          
-          return { ...s, monster };
-      });
+    setState(s => {
+      if (!s.monster?.activeMonster) return s;
+      const monster = { ...s.monster };
+      const active = { ...monster.activeMonster };
+
+      if (success) active.tapsDone += 1;
+      // no penalty for failing to make it easier as requested
+
+      if (active.tapsDone >= active.tapsNeeded) {
+        monster.activeMonster = null;
+        const randomMinutes = Math.random() * 15 + 30;
+        monster.nextSpawnTime = Date.now() + randomMinutes * 60 * 1000 // 5 mins until next for demo
+      } else {
+        monster.activeMonster = active;
+      }
+
+      return { ...s, monster };
+    });
   }, []);
 
   const hireBodyguard = useCallback((guardId) => {
-      setState(s => {
-          const guard = BODYGUARDS.find(g => g.id === guardId);
-          if (!guard) return s;
-          
-          const avgLevel = Math.floor((s.upgrades.miner + s.upgrades.anvil + s.upgrades.furnace + s.upgrades.storage) / 4);
-          const cost = Math.floor(guard.baseCost * Math.pow(1.08, avgLevel));
+    setState(s => {
+      const guard = BODYGUARDS.find(g => g.id === guardId);
+      if (!guard) return s;
 
-          if (s.coins < cost) return s;
-          
-          return {
-              ...s,
-              coins: s.coins - cost,
-              bodyguard: {
-                  activeId: guardId,
-                  expiresAt: Date.now() + guard.durationHrs * 3600 * 1000
-              }
-          };
-      });
+      const avgLevel = Math.floor((s.upgrades.miner + s.upgrades.anvil + s.upgrades.furnace + s.upgrades.storage) / 4);
+      const cost = Math.floor(guard.baseCost * Math.pow(1.08, avgLevel));
+
+      if (s.coins < cost) return s;
+
+      return {
+        ...s,
+        coins: s.coins - cost,
+        bodyguard: {
+          activeId: guardId,
+          expiresAt: Date.now() + guard.durationHrs * 3600 * 1000
+        }
+      };
+    });
   }, []);
 
   const changeActiveArea = useCallback((areaId) => {
-      setState(s => {
-          const area = AREAS[areaId];
-          if (!area) return s;
-          // Check unlock requirement
-          if (s.upgrades.furnace < area.reqFurnace) return s;
-          
-          return { ...s, activeAreaId: areaId };
-      });
+    setState(s => {
+      const area = AREAS[areaId];
+      if (!area) return s;
+      // Check unlock requirement
+      if (s.upgrades.furnace < area.reqFurnace) return s;
+
+      return { ...s, activeAreaId: areaId };
+    });
   }, []);
 
   const clearOfflineEarnings = useCallback(() => setOfflineEarnings(null), []);

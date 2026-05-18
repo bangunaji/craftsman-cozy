@@ -79,11 +79,11 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState('mine');
   const [loading, setLoading] = useState(true);
 
-  // Temporary force reset for v13
+  // Temporary force reset for v14
   useEffect(() => {
-    if (!localStorage.getItem('v13_reset_flag')) {
+    if (!localStorage.getItem('v14_reset_flag')) {
        localStorage.removeItem('piForgeSave');
-       localStorage.setItem('v13_reset_flag', 'true');
+       localStorage.setItem('v14_reset_flag', 'true');
        window.location.reload();
     }
   }, []);

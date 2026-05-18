@@ -51,6 +51,21 @@ const EndgameProgress = () => {
                     </div>
                 </div>
             )}
+
+            <div style={{ marginTop: '25px', textAlign: 'center', borderTop: '2px dashed #d4a373', paddingTop: '15px' }}>
+                <button 
+                    onClick={() => {
+                        if (window.confirm("Apakah Anda yakin ingin me-reset seluruh progres dan memulai ulang dari awal (akun baru)?")) {
+                            localStorage.removeItem('piForgeSave');
+                            localStorage.removeItem('v14_reset_flag');
+                            window.location.reload();
+                        }
+                    }}
+                    style={{ background: '#d88978', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 0 #b06555' }}
+                >
+                    ⚠️ Reset Game (Mulai Akun Baru)
+                </button>
+            </div>
         </div>
     );
 };
