@@ -483,16 +483,20 @@ button:disabled {
   justify-content: center;
   align-items: center;
   z-index: 200;
+  padding-bottom: 90px;
+  box-sizing: border-box;
 }
 .offline-modal { 
   background: var(--bg-card);
-  padding: 36px; 
+  padding: 24px; 
   text-align: center; 
   width: 90%; 
   max-width: 400px; 
   border: var(--border-width) solid var(--border-color);
   border-radius: var(--radius);
   box-shadow: 0 8px 0 0 var(--border-color);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 .offline-modal h2 { margin-bottom: 12px; }
 .offline-rewards { 
@@ -502,3 +506,40 @@ button:disabled {
 .offline-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .offline-item .icon { font-size: 2.4rem; }
 .offline-item .amount { font-size: 1.5rem; font-weight: 900; color: var(--accent-green-dark); }
+
+/* ── Anime.js Support: Screen Shake ── */
+@keyframes screenShake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-8px) rotate(-1deg); }
+  30%  { transform: translateX(8px) rotate(1deg); }
+  45%  { transform: translateX(-6px); }
+  60%  { transform: translateX(6px); }
+  75%  { transform: translateX(-3px); }
+  90%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+body.screen-shake {
+  animation: screenShake 0.6s ease-in-out forwards;
+}
+
+/* ── Monster Warning Blink ── */
+@keyframes warningBlink {
+  0%, 100% { box-shadow: 0 4px 0 0 var(--accent-red-dark); }
+  50%       { box-shadow: 0 4px 24px 4px #ef4444, 0 4px 0 0 var(--accent-red-dark); border-color: #ef4444; }
+}
+
+.active-pulse {
+  animation: warningBlink 1.2s ease-in-out infinite;
+}
+
+/* ── Pop-in animation for defeated monster ── */
+@keyframes popIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Item rarity badge colors ── */
+.has-item { background: var(--accent-green); color: var(--text-main); }
+.need-item { background: var(--accent-red); color: var(--text-main); }

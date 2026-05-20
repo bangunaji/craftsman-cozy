@@ -26,7 +26,7 @@ export const ITEMS = {
     "name": "Clay Pot",
     "icon": "⚪",
     "materials": {
-      "clay": 12
+      "clay": 6
     },
     "craftTime": 20,
     "basePrice": 10,
@@ -42,7 +42,7 @@ export const ITEMS = {
     "name": "Wooden Stick",
     "icon": "⚪",
     "materials": {
-      "wood": 8
+      "wood": 20
     },
     "craftTime": 15,
     "basePrice": 12,
@@ -58,7 +58,7 @@ export const ITEMS = {
     "name": "Stone Ring",
     "icon": "⚪",
     "materials": {
-      "stone": 8
+      "stone": 20
     },
     "craftTime": 30,
     "basePrice": 18,
@@ -74,7 +74,7 @@ export const ITEMS = {
     "name": "Iron Nail",
     "icon": "⚪",
     "materials": {
-      "iron": 4
+      "iron": 3
     },
     "craftTime": 20,
     "basePrice": 20,
@@ -90,8 +90,8 @@ export const ITEMS = {
     "name": "Wooden Shield",
     "icon": "⚪",
     "materials": {
-      "wood": 16,
-      "iron": 4
+      "wood": 18,
+      "iron": 3
     },
     "craftTime": 45,
     "basePrice": 35,
@@ -107,8 +107,8 @@ export const ITEMS = {
     "name": "Stone Axe",
     "icon": "⚪",
     "materials": {
-      "stone": 12,
-      "wood": 4
+      "stone": 18,
+      "wood": 15
     },
     "craftTime": 40,
     "basePrice": 38,
@@ -124,7 +124,7 @@ export const ITEMS = {
     "name": "Clay Brick",
     "icon": "⚪",
     "materials": {
-      "clay": 20
+      "clay": 8
     },
     "craftTime": 35,
     "basePrice": 40,
@@ -140,8 +140,8 @@ export const ITEMS = {
     "name": "Iron Dagger",
     "icon": "⚪",
     "materials": {
-      "iron": 8,
-      "wood": 4
+      "iron": 4,
+      "wood": 15
     },
     "craftTime": 50,
     "basePrice": 45,
@@ -157,8 +157,8 @@ export const ITEMS = {
     "name": "Wooden Bow",
     "icon": "⚪",
     "materials": {
-      "wood": 20,
-      "stone": 8
+      "wood": 22,
+      "stone": 15
     },
     "craftTime": 55,
     "basePrice": 48,
@@ -174,8 +174,8 @@ export const ITEMS = {
     "name": "Iron Sword",
     "icon": "⚪",
     "materials": {
-      "stone": 16,
-      "iron": 8
+      "stone": 20,
+      "iron": 4
     },
     "craftTime": 60,
     "basePrice": 55,
@@ -191,8 +191,8 @@ export const ITEMS = {
     "name": "Stone Wall Piece",
     "icon": "⚪",
     "materials": {
-      "stone": 24,
-      "clay": 8
+      "stone": 20,
+      "clay": 5
     },
     "craftTime": 65,
     "basePrice": 60,
@@ -208,8 +208,8 @@ export const ITEMS = {
     "name": "Iron Shield",
     "icon": "⚪",
     "materials": {
-      "stone": 24,
-      "iron": 12
+      "stone": 22,
+      "iron": 4
     },
     "craftTime": 80,
     "basePrice": 75,
@@ -225,8 +225,8 @@ export const ITEMS = {
     "name": "Wooden Chest",
     "icon": "⚪",
     "materials": {
-      "wood": 24,
-      "iron": 8
+      "wood": 22,
+      "iron": 3
     },
     "craftTime": 75,
     "basePrice": 70,
@@ -242,8 +242,8 @@ export const ITEMS = {
     "name": "Clay Vase",
     "icon": "⚪",
     "materials": {
-      "clay": 16,
-      "stone": 4
+      "clay": 6,
+      "stone": 18
     },
     "craftTime": 60,
     "basePrice": 65,
@@ -259,8 +259,8 @@ export const ITEMS = {
     "name": "Iron Helm",
     "icon": "⚪",
     "materials": {
-      "iron": 20,
-      "stone": 8
+      "iron": 5,
+      "stone": 18
     },
     "craftTime": 90,
     "basePrice": 90,
@@ -276,8 +276,8 @@ export const ITEMS = {
     "name": "Stone Hammer",
     "icon": "⚪",
     "materials": {
-      "stone": 16,
-      "iron": 12
+      "stone": 22,
+      "iron": 4
     },
     "craftTime": 85,
     "basePrice": 85,
@@ -293,9 +293,9 @@ export const ITEMS = {
     "name": "Wooden Spear",
     "icon": "⚪",
     "materials": {
-      "wood": 24,
-      "stone": 8,
-      "iron": 4
+      "wood": 22,
+      "stone": 18,
+      "iron": 3
     },
     "craftTime": 95,
     "basePrice": 95,
@@ -311,8 +311,8 @@ export const ITEMS = {
     "name": "Iron Gauntlet",
     "icon": "⚪",
     "materials": {
-      "iron": 16,
-      "stone": 8
+      "iron": 4,
+      "stone": 18
     },
     "craftTime": 100,
     "basePrice": 105,
@@ -328,8 +328,8 @@ export const ITEMS = {
     "name": "Clay Lantern",
     "icon": "⚪",
     "materials": {
-      "clay": 12,
-      "wood": 8
+      "clay": 6,
+      "wood": 18
     },
     "craftTime": 70,
     "basePrice": 80,
@@ -345,8 +345,8 @@ export const ITEMS = {
     "name": "Stone Statue",
     "icon": "⚪",
     "materials": {
-      "stone": 32,
-      "clay": 8
+      "stone": 22,
+      "clay": 5
     },
     "craftTime": 110,
     "basePrice": 120,
@@ -362,8 +362,8 @@ export const ITEMS = {
     "name": "Iron Breastplate",
     "icon": "⚪",
     "materials": {
-      "iron": 24,
-      "stone": 16
+      "iron": 5,
+      "stone": 20
     },
     "craftTime": 120,
     "basePrice": 130,
@@ -379,8 +379,8 @@ export const ITEMS = {
     "name": "Wooden Cabin",
     "icon": "⚪",
     "materials": {
-      "wood": 40,
-      "stone": 12
+      "wood": 25,
+      "stone": 18
     },
     "craftTime": 130,
     "basePrice": 140,
@@ -396,8 +396,8 @@ export const ITEMS = {
     "name": "Iron Boots",
     "icon": "⚪",
     "materials": {
-      "iron": 20,
-      "clay": 8
+      "iron": 4,
+      "clay": 5
     },
     "craftTime": 115,
     "basePrice": 125,
@@ -413,8 +413,8 @@ export const ITEMS = {
     "name": "Stone Tower",
     "icon": "⚪",
     "materials": {
-      "stone": 40,
-      "clay": 16
+      "stone": 22,
+      "clay": 5
     },
     "craftTime": 140,
     "basePrice": 155,
@@ -430,8 +430,8 @@ export const ITEMS = {
     "name": "Iron Full Armor",
     "icon": "⚪",
     "materials": {
-      "iron": 40,
-      "stone": 16
+      "iron": 5,
+      "stone": 20
     },
     "craftTime": 160,
     "basePrice": 200,
@@ -447,8 +447,8 @@ export const ITEMS = {
     "name": "Wooden Siege Bow",
     "icon": "⚪",
     "materials": {
-      "wood": 32,
-      "iron": 16
+      "wood": 22,
+      "iron": 4
     },
     "craftTime": 150,
     "basePrice": 185,
@@ -464,8 +464,8 @@ export const ITEMS = {
     "name": "Clay Golem Core",
     "icon": "⚪",
     "materials": {
-      "clay": 32,
-      "stone": 16
+      "clay": 8,
+      "stone": 20
     },
     "craftTime": 145,
     "basePrice": 175,
@@ -481,8 +481,8 @@ export const ITEMS = {
     "name": "Iron War Axe",
     "icon": "⚪",
     "materials": {
-      "iron": 24,
-      "wood": 12
+      "iron": 5,
+      "wood": 20
     },
     "craftTime": 155,
     "basePrice": 190,
@@ -498,8 +498,8 @@ export const ITEMS = {
     "name": "Stone Fortress Wall",
     "icon": "⚪",
     "materials": {
-      "stone": 48,
-      "clay": 20
+      "stone": 22,
+      "clay": 5
     },
     "craftTime": 170,
     "basePrice": 210,
@@ -515,8 +515,8 @@ export const ITEMS = {
     "name": "Iron Tower Shield",
     "icon": "⚪",
     "materials": {
-      "iron": 32,
-      "stone": 24
+      "iron": 5,
+      "stone": 22
     },
     "craftTime": 180,
     "basePrice": 230,
@@ -532,8 +532,8 @@ export const ITEMS = {
     "name": "Copper Bracelet",
     "icon": "🟢",
     "materials": {
-      "copper": 30,
-      "stone": 10
+      "copper": 5,
+      "stone": 20
     },
     "craftTime": 90,
     "basePrice": 500,
@@ -549,8 +549,8 @@ export const ITEMS = {
     "name": "Amber Pendant",
     "icon": "🟢",
     "materials": {
-      "amber": 20,
-      "wood": 10
+      "amber": 4,
+      "wood": 20
     },
     "craftTime": 95,
     "basePrice": 520,
@@ -566,8 +566,8 @@ export const ITEMS = {
     "name": "Silver Ring",
     "icon": "🟢",
     "materials": {
-      "silver": 30,
-      "stone": 10
+      "silver": 4,
+      "stone": 20
     },
     "craftTime": 100,
     "basePrice": 550,
@@ -583,8 +583,8 @@ export const ITEMS = {
     "name": "Bamboo Staff",
     "icon": "🟢",
     "materials": {
-      "bamboo_crystal": 40,
-      "wood": 20
+      "bamboo_crystal": 5,
+      "wood": 22
     },
     "craftTime": 110,
     "basePrice": 580,
@@ -600,8 +600,8 @@ export const ITEMS = {
     "name": "Copper Sword",
     "icon": "🟢",
     "materials": {
-      "copper": 40,
-      "iron": 20
+      "copper": 6,
+      "iron": 3
     },
     "craftTime": 120,
     "basePrice": 620,
@@ -617,8 +617,8 @@ export const ITEMS = {
     "name": "Amber Necklace",
     "icon": "🟢",
     "materials": {
-      "amber": 30,
-      "stone": 20
+      "amber": 5,
+      "stone": 22
     },
     "craftTime": 115,
     "basePrice": 610,
@@ -634,8 +634,8 @@ export const ITEMS = {
     "name": "Silver Earring",
     "icon": "🟢",
     "materials": {
-      "silver": 20,
-      "copper": 10
+      "silver": 4,
+      "copper": 3
     },
     "craftTime": 105,
     "basePrice": 590,
@@ -651,8 +651,8 @@ export const ITEMS = {
     "name": "Bamboo Armor",
     "icon": "🟢",
     "materials": {
-      "bamboo_crystal": 50,
-      "wood": 30
+      "bamboo_crystal": 6,
+      "wood": 22
     },
     "craftTime": 130,
     "basePrice": 660,
@@ -668,8 +668,8 @@ export const ITEMS = {
     "name": "Copper Shield",
     "icon": "🟢",
     "materials": {
-      "copper": 50,
-      "iron": 30
+      "copper": 6,
+      "iron": 3
     },
     "craftTime": 135,
     "basePrice": 680,
@@ -685,8 +685,8 @@ export const ITEMS = {
     "name": "Silver Dagger",
     "icon": "🟢",
     "materials": {
-      "silver": 40,
-      "copper": 20
+      "silver": 5,
+      "copper": 3
     },
     "craftTime": 125,
     "basePrice": 650,
@@ -702,8 +702,8 @@ export const ITEMS = {
     "name": "Amber Totem",
     "icon": "🟢",
     "materials": {
-      "amber": 40,
-      "bamboo_crystal": 20
+      "amber": 5,
+      "bamboo_crystal": 3
     },
     "craftTime": 140,
     "basePrice": 700,
@@ -719,8 +719,8 @@ export const ITEMS = {
     "name": "Copper War Helm",
     "icon": "🟢",
     "materials": {
-      "copper": 50,
-      "stone": 20
+      "copper": 6,
+      "stone": 22
     },
     "craftTime": 145,
     "basePrice": 720,
@@ -736,8 +736,8 @@ export const ITEMS = {
     "name": "Silver Amulet",
     "icon": "🟢",
     "materials": {
-      "silver": 40,
-      "amber": 20
+      "silver": 5,
+      "amber": 3
     },
     "craftTime": 150,
     "basePrice": 750,
@@ -753,8 +753,8 @@ export const ITEMS = {
     "name": "Bamboo Wind Bow",
     "icon": "🟢",
     "materials": {
-      "bamboo_crystal": 60,
-      "wood": 30
+      "bamboo_crystal": 7,
+      "wood": 22
     },
     "craftTime": 155,
     "basePrice": 780,
@@ -770,8 +770,8 @@ export const ITEMS = {
     "name": "Copper Full Plate",
     "icon": "🟢",
     "materials": {
-      "copper": 70,
-      "iron": 40
+      "copper": 7,
+      "iron": 3
     },
     "craftTime": 170,
     "basePrice": 820,
@@ -787,8 +787,8 @@ export const ITEMS = {
     "name": "Silver Crown",
     "icon": "🟢",
     "materials": {
-      "silver": 50,
-      "copper": 30
+      "silver": 6,
+      "copper": 4
     },
     "craftTime": 165,
     "basePrice": 800,
@@ -804,8 +804,8 @@ export const ITEMS = {
     "name": "Amber Staff",
     "icon": "🟢",
     "materials": {
-      "amber": 50,
-      "bamboo_crystal": 30
+      "amber": 5,
+      "bamboo_crystal": 4
     },
     "craftTime": 175,
     "basePrice": 840,
@@ -821,8 +821,8 @@ export const ITEMS = {
     "name": "Copper Cannon",
     "icon": "🟢",
     "materials": {
-      "copper": 60,
-      "stone": 40
+      "copper": 7,
+      "stone": 22
     },
     "craftTime": 180,
     "basePrice": 870,
@@ -838,8 +838,8 @@ export const ITEMS = {
     "name": "Silver Battle Axe",
     "icon": "🟢",
     "materials": {
-      "silver": 50,
-      "copper": 40
+      "silver": 6,
+      "copper": 4
     },
     "craftTime": 185,
     "basePrice": 900,
@@ -855,8 +855,8 @@ export const ITEMS = {
     "name": "Bamboo Golem",
     "icon": "🟢",
     "materials": {
-      "bamboo_crystal": 80,
-      "wood": 40
+      "bamboo_crystal": 8,
+      "wood": 22
     },
     "craftTime": 200,
     "basePrice": 950,
@@ -872,8 +872,8 @@ export const ITEMS = {
     "name": "Amber War Mask",
     "icon": "🟢",
     "materials": {
-      "amber": 50,
-      "copper": 30
+      "amber": 6,
+      "copper": 4
     },
     "craftTime": 195,
     "basePrice": 930,
@@ -889,8 +889,8 @@ export const ITEMS = {
     "name": "Silver Fortress Key",
     "icon": "🟢",
     "materials": {
-      "silver": 60,
-      "amber": 30
+      "silver": 7,
+      "amber": 4
     },
     "craftTime": 205,
     "basePrice": 960,
@@ -906,8 +906,8 @@ export const ITEMS = {
     "name": "Copper Dragon Blade",
     "icon": "🟢",
     "materials": {
-      "copper": 70,
-      "silver": 30
+      "copper": 8,
+      "silver": 4
     },
     "craftTime": 210,
     "basePrice": 990,
@@ -923,8 +923,8 @@ export const ITEMS = {
     "name": "Bamboo Spirit Shield",
     "icon": "🟢",
     "materials": {
-      "bamboo_crystal": 70,
-      "amber": 40
+      "bamboo_crystal": 7,
+      "amber": 5
     },
     "craftTime": 215,
     "basePrice": 1020,
@@ -940,8 +940,8 @@ export const ITEMS = {
     "name": "Silver War Armor",
     "icon": "🟢",
     "materials": {
-      "silver": 70,
-      "copper": 50
+      "silver": 8,
+      "copper": 5
     },
     "craftTime": 220,
     "basePrice": 1100,
@@ -957,8 +957,8 @@ export const ITEMS = {
     "name": "Amber Golem Heart",
     "icon": "🟢",
     "materials": {
-      "amber": 60,
-      "bamboo_crystal": 40
+      "amber": 7,
+      "bamboo_crystal": 5
     },
     "craftTime": 225,
     "basePrice": 1150,
@@ -974,8 +974,8 @@ export const ITEMS = {
     "name": "Copper Siege Tower",
     "icon": "🟢",
     "materials": {
-      "copper": 90,
-      "stone": 50
+      "copper": 8,
+      "stone": 22
     },
     "craftTime": 235,
     "basePrice": 1200,
@@ -991,8 +991,8 @@ export const ITEMS = {
     "name": "Silver Dragon Scale",
     "icon": "🟢",
     "materials": {
-      "silver": 80,
-      "amber": 40
+      "silver": 8,
+      "amber": 5
     },
     "craftTime": 240,
     "basePrice": 1300,
@@ -1008,8 +1008,8 @@ export const ITEMS = {
     "name": "Gold Ring",
     "icon": "🔵",
     "materials": {
-      "gold": 75,
-      "silver": 50
+      "gold": 3,
+      "silver": 5
     },
     "craftTime": 180,
     "basePrice": 2000,
@@ -1025,8 +1025,8 @@ export const ITEMS = {
     "name": "Jade Pendant",
     "icon": "🔵",
     "materials": {
-      "jade": 75,
-      "bamboo_crystal": 50
+      "jade": 3,
+      "bamboo_crystal": 5
     },
     "craftTime": 190,
     "basePrice": 2100,
@@ -1042,8 +1042,8 @@ export const ITEMS = {
     "name": "Moonstone Orb",
     "icon": "🔵",
     "materials": {
-      "moonstone": 75,
-      "amber": 50
+      "moonstone": 3,
+      "amber": 5
     },
     "craftTime": 200,
     "basePrice": 2200,
@@ -1059,8 +1059,8 @@ export const ITEMS = {
     "name": "Mithril Dagger",
     "icon": "🔵",
     "materials": {
-      "mithril": 75,
-      "silver": 50
+      "mithril": 3,
+      "silver": 5
     },
     "craftTime": 210,
     "basePrice": 2350,
@@ -1076,8 +1076,8 @@ export const ITEMS = {
     "name": "Gold Crown",
     "icon": "🔵",
     "materials": {
-      "gold": 125,
-      "silver": 75
+      "gold": 4,
+      "silver": 5
     },
     "craftTime": 240,
     "basePrice": 2600,
@@ -1093,8 +1093,8 @@ export const ITEMS = {
     "name": "Jade War Staff",
     "icon": "🔵",
     "materials": {
-      "jade": 100,
-      "bamboo_crystal": 75
+      "jade": 4,
+      "bamboo_crystal": 5
     },
     "craftTime": 250,
     "basePrice": 2700,
@@ -1110,8 +1110,8 @@ export const ITEMS = {
     "name": "Moonstone Shield",
     "icon": "🔵",
     "materials": {
-      "moonstone": 100,
-      "mithril": 75
+      "moonstone": 4,
+      "mithril": 3
     },
     "craftTime": 260,
     "basePrice": 2900,
@@ -1127,8 +1127,8 @@ export const ITEMS = {
     "name": "Mithril Sword",
     "icon": "🔵",
     "materials": {
-      "mithril": 125,
-      "gold": 75
+      "mithril": 4,
+      "gold": 3
     },
     "craftTime": 270,
     "basePrice": 3100,
@@ -1144,8 +1144,8 @@ export const ITEMS = {
     "name": "Gold Armor",
     "icon": "🔵",
     "materials": {
-      "gold": 150,
-      "silver": 100
+      "gold": 4,
+      "silver": 5
     },
     "craftTime": 300,
     "basePrice": 3400,
@@ -1161,8 +1161,8 @@ export const ITEMS = {
     "name": "Jade Amulet",
     "icon": "🔵",
     "materials": {
-      "jade": 125,
-      "moonstone": 75
+      "jade": 4,
+      "moonstone": 3
     },
     "craftTime": 310,
     "basePrice": 3600,
@@ -1178,8 +1178,8 @@ export const ITEMS = {
     "name": "Moonstone Wand",
     "icon": "🔵",
     "materials": {
-      "moonstone": 125,
-      "jade": 75
+      "moonstone": 4,
+      "jade": 3
     },
     "craftTime": 320,
     "basePrice": 3800,
@@ -1195,8 +1195,8 @@ export const ITEMS = {
     "name": "Mithril Breastplate",
     "icon": "🔵",
     "materials": {
-      "mithril": 150,
-      "gold": 100
+      "mithril": 5,
+      "gold": 3
     },
     "craftTime": 330,
     "basePrice": 4000,
@@ -1212,8 +1212,8 @@ export const ITEMS = {
     "name": "Gold Trident",
     "icon": "🔵",
     "materials": {
-      "gold": 150,
-      "mithril": 100
+      "gold": 5,
+      "mithril": 3
     },
     "craftTime": 350,
     "basePrice": 4200,
@@ -1229,8 +1229,8 @@ export const ITEMS = {
     "name": "Jade Dragon Helm",
     "icon": "🔵",
     "materials": {
-      "jade": 125,
-      "gold": 100
+      "jade": 5,
+      "gold": 3
     },
     "craftTime": 360,
     "basePrice": 4400,
@@ -1246,8 +1246,8 @@ export const ITEMS = {
     "name": "Moonstone Tiara",
     "icon": "🔵",
     "materials": {
-      "moonstone": 150,
-      "silver": 100
+      "moonstone": 5,
+      "silver": 5
     },
     "craftTime": 370,
     "basePrice": 4600,
@@ -1263,8 +1263,8 @@ export const ITEMS = {
     "name": "Mithril War Axe",
     "icon": "🔵",
     "materials": {
-      "mithril": 175,
-      "gold": 100
+      "mithril": 5,
+      "gold": 3
     },
     "craftTime": 380,
     "basePrice": 4900,
@@ -1280,8 +1280,8 @@ export const ITEMS = {
     "name": "Gold Dragon Scale",
     "icon": "🔵",
     "materials": {
-      "gold": 175,
-      "mithril": 125
+      "gold": 5,
+      "mithril": 4
     },
     "craftTime": 400,
     "basePrice": 5200,
@@ -1297,8 +1297,8 @@ export const ITEMS = {
     "name": "Jade Fortress Key",
     "icon": "🔵",
     "materials": {
-      "jade": 150,
-      "moonstone": 100
+      "jade": 5,
+      "moonstone": 3
     },
     "craftTime": 410,
     "basePrice": 5500,
@@ -1314,8 +1314,8 @@ export const ITEMS = {
     "name": "Moonstone Full Armor",
     "icon": "🔵",
     "materials": {
-      "moonstone": 175,
-      "mithril": 125
+      "moonstone": 5,
+      "mithril": 4
     },
     "craftTime": 420,
     "basePrice": 5800,
@@ -1331,8 +1331,8 @@ export const ITEMS = {
     "name": "Mithril Dragon Blade",
     "icon": "🔵",
     "materials": {
-      "mithril": 200,
-      "gold": 125
+      "mithril": 5,
+      "gold": 4
     },
     "craftTime": 440,
     "basePrice": 6100,
@@ -1348,8 +1348,8 @@ export const ITEMS = {
     "name": "Gold Phoenix Crown",
     "icon": "🔵",
     "materials": {
-      "gold": 200,
-      "jade": 125
+      "gold": 5,
+      "jade": 4
     },
     "craftTime": 460,
     "basePrice": 6500,
@@ -1365,8 +1365,8 @@ export const ITEMS = {
     "name": "Jade Golem Core",
     "icon": "🔵",
     "materials": {
-      "jade": 175,
-      "moonstone": 125
+      "jade": 5,
+      "moonstone": 4
     },
     "craftTime": 470,
     "basePrice": 6800,
@@ -1382,8 +1382,8 @@ export const ITEMS = {
     "name": "Moonstone Dragon Orb",
     "icon": "🔵",
     "materials": {
-      "moonstone": 200,
-      "jade": 125
+      "moonstone": 5,
+      "jade": 4
     },
     "craftTime": 480,
     "basePrice": 7200,
@@ -1399,8 +1399,8 @@ export const ITEMS = {
     "name": "Mithril Royal Armor",
     "icon": "🔵",
     "materials": {
-      "mithril": 225,
-      "gold": 150
+      "mithril": 5,
+      "gold": 4
     },
     "craftTime": 500,
     "basePrice": 7800,
@@ -1416,8 +1416,8 @@ export const ITEMS = {
     "name": "Obsidian Blade",
     "icon": "🟣",
     "materials": {
-      "obsidian": 240,
-      "mithril": 180
+      "obsidian": 4,
+      "mithril": 3
     },
     "craftTime": 480,
     "basePrice": 8000,
@@ -1433,8 +1433,8 @@ export const ITEMS = {
     "name": "Dragonite Scale",
     "icon": "🟣",
     "materials": {
-      "dragonite": 180,
-      "obsidian": 240
+      "dragonite": 3,
+      "obsidian": 4
     },
     "craftTime": 500,
     "basePrice": 8500,
@@ -1450,8 +1450,8 @@ export const ITEMS = {
     "name": "Aurora Wand",
     "icon": "🟣",
     "materials": {
-      "aurora_stone": 240,
-      "jade": 180
+      "aurora_stone": 4,
+      "jade": 3
     },
     "craftTime": 510,
     "basePrice": 9000,
@@ -1467,8 +1467,8 @@ export const ITEMS = {
     "name": "Adamantite Gauntlet",
     "icon": "🟣",
     "materials": {
-      "adamantite": 240,
-      "mithril": 180
+      "adamantite": 4,
+      "mithril": 3
     },
     "craftTime": 520,
     "basePrice": 9500,
@@ -1484,8 +1484,8 @@ export const ITEMS = {
     "name": "Obsidian War Armor",
     "icon": "🟣",
     "materials": {
-      "obsidian": 360,
-      "adamantite": 240
+      "obsidian": 5,
+      "adamantite": 4
     },
     "craftTime": 560,
     "basePrice": 10500,
@@ -1501,8 +1501,8 @@ export const ITEMS = {
     "name": "Dragonite Helm",
     "icon": "🟣",
     "materials": {
-      "dragonite": 300,
-      "obsidian": 180
+      "dragonite": 4,
+      "obsidian": 3
     },
     "craftTime": 570,
     "basePrice": 11000,
@@ -1518,8 +1518,8 @@ export const ITEMS = {
     "name": "Aurora Shield",
     "icon": "🟣",
     "materials": {
-      "aurora_stone": 300,
-      "moonstone": 240
+      "aurora_stone": 4,
+      "moonstone": 3
     },
     "craftTime": 580,
     "basePrice": 11500,
@@ -1535,8 +1535,8 @@ export const ITEMS = {
     "name": "Adamantite Sword",
     "icon": "🟣",
     "materials": {
-      "adamantite": 360,
-      "obsidian": 240
+      "adamantite": 5,
+      "obsidian": 3
     },
     "craftTime": 600,
     "basePrice": 12500,
@@ -1552,8 +1552,8 @@ export const ITEMS = {
     "name": "Obsidian Dragon Crown",
     "icon": "🟣",
     "materials": {
-      "obsidian": 360,
-      "dragonite": 300
+      "obsidian": 5,
+      "dragonite": 4
     },
     "craftTime": 620,
     "basePrice": 13500,
@@ -1569,8 +1569,8 @@ export const ITEMS = {
     "name": "Dragonite Full Armor",
     "icon": "🟣",
     "materials": {
-      "dragonite": 420,
-      "adamantite": 300
+      "dragonite": 5,
+      "adamantite": 4
     },
     "craftTime": 650,
     "basePrice": 14500,
@@ -1586,8 +1586,8 @@ export const ITEMS = {
     "name": "Aurora Dragon Staff",
     "icon": "🟣",
     "materials": {
-      "aurora_stone": 360,
-      "dragonite": 240
+      "aurora_stone": 5,
+      "dragonite": 3
     },
     "craftTime": 660,
     "basePrice": 15500,
@@ -1603,8 +1603,8 @@ export const ITEMS = {
     "name": "Adamantite War Axe",
     "icon": "🟣",
     "materials": {
-      "adamantite": 420,
-      "dragonite": 300
+      "adamantite": 5,
+      "dragonite": 4
     },
     "craftTime": 680,
     "basePrice": 16500,
@@ -1620,8 +1620,8 @@ export const ITEMS = {
     "name": "Obsidian Golem",
     "icon": "🟣",
     "materials": {
-      "obsidian": 480,
-      "aurora_stone": 300
+      "obsidian": 5,
+      "aurora_stone": 4
     },
     "craftTime": 700,
     "basePrice": 17500,
@@ -1637,8 +1637,8 @@ export const ITEMS = {
     "name": "Dragonite Siege Cannon",
     "icon": "🟣",
     "materials": {
-      "dragonite": 420,
-      "adamantite": 360
+      "dragonite": 5,
+      "adamantite": 4
     },
     "craftTime": 720,
     "basePrice": 18500,
@@ -1654,8 +1654,8 @@ export const ITEMS = {
     "name": "Aurora Phoenix Bow",
     "icon": "🟣",
     "materials": {
-      "aurora_stone": 420,
-      "dragonite": 300
+      "aurora_stone": 5,
+      "dragonite": 4
     },
     "craftTime": 740,
     "basePrice": 20000,
@@ -1671,8 +1671,8 @@ export const ITEMS = {
     "name": "Adamantite Royal Armor",
     "icon": "🟣",
     "materials": {
-      "adamantite": 480,
-      "obsidian": 360
+      "adamantite": 5,
+      "obsidian": 4
     },
     "craftTime": 760,
     "basePrice": 22000,
@@ -1688,8 +1688,8 @@ export const ITEMS = {
     "name": "Obsidian Dragon Trident",
     "icon": "🟣",
     "materials": {
-      "obsidian": 540,
-      "dragonite": 360
+      "obsidian": 5,
+      "dragonite": 4
     },
     "craftTime": 780,
     "basePrice": 25000,
@@ -1705,8 +1705,8 @@ export const ITEMS = {
     "name": "Aurora Celestial Crown",
     "icon": "🟣",
     "materials": {
-      "aurora_stone": 480,
-      "adamantite": 360
+      "aurora_stone": 5,
+      "adamantite": 4
     },
     "craftTime": 800,
     "basePrice": 28000,
@@ -1722,8 +1722,8 @@ export const ITEMS = {
     "name": "Ethereal Blade",
     "icon": "🟡",
     "materials": {
-      "ethereal_crystal": 600,
-      "adamantite": 480
+      "ethereal_crystal": 3,
+      "adamantite": 4
     },
     "craftTime": 900,
     "basePrice": 30000,
@@ -1739,8 +1739,8 @@ export const ITEMS = {
     "name": "Voidstone Orb",
     "icon": "🟡",
     "materials": {
-      "voidstone": 480,
-      "ethereal_crystal": 480
+      "voidstone": 2,
+      "ethereal_crystal": 3
     },
     "craftTime": 950,
     "basePrice": 33000,
@@ -1756,8 +1756,8 @@ export const ITEMS = {
     "name": "Sunfire Armor",
     "icon": "🟡",
     "materials": {
-      "sunfire_ore": 600,
-      "aurora_stone": 480
+      "sunfire_ore": 3,
+      "aurora_stone": 4
     },
     "craftTime": 1000,
     "basePrice": 36000,
@@ -1773,8 +1773,8 @@ export const ITEMS = {
     "name": "Divine Ring",
     "icon": "🟡",
     "materials": {
-      "divine_ingot": 360,
-      "sunfire_ore": 480
+      "divine_ingot": 2,
+      "sunfire_ore": 3
     },
     "craftTime": 1050,
     "basePrice": 40000,
@@ -1790,8 +1790,8 @@ export const ITEMS = {
     "name": "Voidstone Crown",
     "icon": "🟡",
     "materials": {
-      "voidstone": 600,
-      "dragonite": 480
+      "voidstone": 3,
+      "dragonite": 4
     },
     "craftTime": 1100,
     "basePrice": 44000,
@@ -1807,8 +1807,8 @@ export const ITEMS = {
     "name": "Sunfire Dragon Staff",
     "icon": "🟡",
     "materials": {
-      "sunfire_ore": 720,
-      "ethereal_crystal": 480
+      "sunfire_ore": 4,
+      "ethereal_crystal": 3
     },
     "craftTime": 1150,
     "basePrice": 48000,
@@ -1824,8 +1824,8 @@ export const ITEMS = {
     "name": "Divine War Armor",
     "icon": "🟡",
     "materials": {
-      "divine_ingot": 600,
-      "voidstone": 600
+      "divine_ingot": 3,
+      "voidstone": 4
     },
     "craftTime": 1200,
     "basePrice": 52000,
@@ -1873,7 +1873,7 @@ export const ITEMS = {
     "name": "Divine Forge Relic",
     "icon": "🟡",
     "materials": {
-      "sunfire_ore": 360,
+      "sunfire_ore": 2,
       "blueprint": 2
     },
     "craftTime": 2000,
@@ -1888,11 +1888,12 @@ export const ITEMS = {
 };
 
 export const AREAS = {
-  area_1: { id: 'area_1', name: 'Greenhorn Outskirts', reqFurnace: 0, rates: { stone: 40, wood: 30, iron: 20, clay: 10 } },
-  area_2: { id: 'area_2', name: 'Bamboo Forest', reqFurnace: 3, rates: { wood: 40, bamboo_crystal: 25, amber: 20, iron: 15 } },
-  area_3: { id: 'area_3', name: 'Silvermine Depths', reqFurnace: 4, rates: { stone: 30, iron: 30, copper: 25, silver: 15 } },
-  area_4: { id: 'area_4', name: 'Moonlit Grotto', reqFurnace: 7, rates: { gold: 35, jade: 30, moonstone: 20, mithril: 15 } },
-  area_5: { id: 'area_5', name: 'Dragon\'s Peak', reqFurnace: 12, rates: { obsidian: 40, dragonite: 30, gold: 20, mithril: 10 } },
+  // BALANCING FIX: Iron (langka) < Clay (melimpah) di semua area
+  area_1: { id: 'area_1', name: 'Greenhorn Outskirts', reqFurnace: 0, rates: { stone: 40, wood: 25, clay: 20, iron: 15 } },
+  area_2: { id: 'area_2', name: 'Bamboo Forest', reqFurnace: 3, rates: { wood: 40, clay: 25, bamboo_crystal: 20, iron: 10, amber: 5 } },
+  area_3: { id: 'area_3', name: 'Silvermine Depths', reqFurnace: 4, rates: { stone: 35, clay: 25, copper: 20, iron: 12, silver: 8 } },
+  area_4: { id: 'area_4', name: 'Moonlit Grotto', reqFurnace: 7, rates: { gold: 35, jade: 28, moonstone: 22, mithril: 15 } },
+  area_5: { id: 'area_5', name: "Dragon's Peak", reqFurnace: 12, rates: { obsidian: 40, dragonite: 30, gold: 20, mithril: 10 } },
   area_6: { id: 'area_6', name: 'Aurora Tundra', reqFurnace: 14, rates: { aurora_stone: 45, adamantite: 35, dragonite: 20 } },
   area_7: { id: 'area_7', name: 'Ethereal Void', reqFurnace: 18, rates: { ethereal_crystal: 40, voidstone: 30, sunfire_ore: 20, divine_ingot: 10 } }
 };
@@ -1903,8 +1904,8 @@ export const UPGRADES = {
     name: 'Auto-Miner',
     icon: '⛏️',
     desc: 'Otomatis menambang ore tiap detik.',
-    baseCost: 80,
-    costMultiplier: 1.5,
+    baseCost: 500,       // NERF: Naik dari 80 -> 500 (Anti-Exploit)
+    costMultiplier: 1.7, // NERF: Inflasi eksponensial lebih agresif
     // KODE RACIKAN TERBARU: Kurva Seimbang 0.5 - 30 Ore/Detik
     effect: (level) => {
       if (level === 0) return 0;

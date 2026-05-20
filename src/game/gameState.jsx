@@ -6,6 +6,7 @@ const GameContext = createContext();
 
 export const useGame = () => useContext(GameContext);
 
+// FIX: Slot ke-3 di-skip bug — gunakan base + bonus (bukan base * 2)
 export const getMaxSlots = (anvilLevel, rentedSlotsExpiry) => {
   let base = 2;
   if (anvilLevel >= 16) base = 7;
@@ -14,8 +15,9 @@ export const getMaxSlots = (anvilLevel, rentedSlotsExpiry) => {
   else if (anvilLevel >= 7) base = 4;
   else if (anvilLevel >= 3) base = 3;
 
+  // FIX: Tambah 2 slot bonus (bukan kalikan 2) sehingga tidak loncat dari 3 ke 6
   if (rentedSlotsExpiry && Date.now() < rentedSlotsExpiry) {
-    return base * 2;
+    return base + 2;
   }
   return base;
 };
@@ -56,6 +58,16 @@ export const GameProvider = ({ children }) => {
   const clickTimestamps = useRef([]);
   const [offlineEarnings, setOfflineEarnings] = useState(null);
   const [upgradeError, setUpgradeError] = useState(null);
+  // State untuk animasi floating numbers
+  const [floatingPopups, setFloatingPopups] = useState([]);
+
+  const triggerFloatingPopup = useCallback((text, type = 'gold') => {
+    const id = Date.now() + Math.random();
+    setFloatingPopups(prev => [...prev, { id, text, type }]);
+    setTimeout(() => {
+      setFloatingPopups(prev => prev.filter(p => p.id !== id));
+    }, 1500);
+  }, []);
 
   // Save game automatically
   useEffect(() => {
@@ -98,11 +110,9 @@ export const GameProvider = ({ children }) => {
       const minerRate = UPGRADES.miner.effect(state.upgrades.miner);
       const totalMined = minerRate * timeDiff;
 
-      const premiumBonus = Math.min(state.storageExpanders || 0, 2) * 100;
-      const capacity = UPGRADES.storage.effect(state.upgrades.storage) + premiumBonus;
+      const capacity = UPGRADES.storage.effect(state.upgrades.storage);
       const currentTotal = Object.values(state.ores).reduce((a, b) => a + Math.floor(b), 0);
       const spaceLeft = Math.max(0, capacity - currentTotal);
-
       const actualEarned = Math.min(totalMined, spaceLeft);
 
       if (actualEarned > 0) {
@@ -150,20 +160,25 @@ export const GameProvider = ({ children }) => {
 
           const minedThisTick = minerRate * delta;
 
-          const premiumBonus = Math.min(s.storageExpanders || 0, 2) * 100;
-          const capacity = UPGRADES.storage.effect(s.upgrades.storage) + premiumBonus;
+          // Storage cap (storageExpanders dihapus)
+          const capacity = UPGRADES.storage.effect(s.upgrades.storage);
+          // Gunakan floor pada SETIAP ore agar tidak ada float leak
           const currentTotal = Object.values(s.ores).reduce((a, b) => a + Math.floor(b), 0);
-
-          // 🛠️ KODE FIX OVERFLOW: Hitung sisa ruang kosong yang tersedia secara ketat
-          const spaceLeft = capacity - currentTotal;
+          const spaceLeft = Math.max(0, capacity - currentTotal);
 
           if (spaceLeft > 0) {
-            // Ambil nilai terkecil: laju tambang asli ATAU sisa ruang gudang yang tersedia (Clamping)
             const actualMinedThisTick = Math.min(minedThisTick, spaceLeft);
-
             const yields = calculateMiningYield(actualMinedThisTick, s.activeAreaId || 'area_1');
             const newOres = { ...s.ores };
-            Object.keys(yields).forEach(k => newOres[k] += yields[k]);
+
+            // Tambahkan per-ore dengan clamp agar tidak melebihi sisa kapasitas
+            let remaining = spaceLeft;
+            Object.keys(yields).forEach(k => {
+              if (remaining <= 0) return;
+              const add = Math.min(yields[k], remaining);
+              newOres[k] = (newOres[k] || 0) + add;
+              remaining -= add;
+            });
 
             newState.ores = newOres;
             stateChanged = true;
@@ -194,20 +209,32 @@ export const GameProvider = ({ children }) => {
           }
         }
 
-        // Monster Logic
+        // Monster Logic — Guard Auto-Fight sebelum spawn
         const nowMs = Date.now();
         if (newState.monster && !newState.monster.activeMonster && !newState.monster.activeDebuff) {
           if (nowMs >= newState.monster.nextSpawnTime) {
             const avgLevel = Math.floor((s.upgrades.miner + s.upgrades.anvil + s.upgrades.furnace + s.upgrades.storage) / 4);
-            if (newState.bodyguard && newState.bodyguard.expiresAt > nowMs) {
-              newState.monster.nextSpawnTime = nowMs + 10 * 60 * 1000;
+            const guardActive = newState.bodyguard && newState.bodyguard.expiresAt > nowMs;
+            if (guardActive) {
+              // FEATURE: Guard aktif → usir monster secara otomatis, tunda spawn lebih lama
+              newState.monster.nextSpawnTime = nowMs + 20 * 60 * 1000; // Guard pushes back 20 menit
+              newState.monster.autoRepelledByGuard = true; // flag untuk animasi
             } else {
               newState.monster.activeMonster = getRandomMonster(avgLevel);
+              newState.monster.autoRepelledByGuard = false;
             }
             stateChanged = true;
           }
         } else if (newState.monster && newState.monster.activeMonster) {
-          if (nowMs >= newState.monster.activeMonster.expiresAt) {
+          const guardActive = newState.bodyguard && newState.bodyguard.expiresAt > nowMs;
+          if (guardActive) {
+            // FEATURE: Guard mengusir monster yang sudah muncul secara otomatis
+            newState.monster.activeMonster = null;
+            const randomMinutes = Math.random() * 15 + 20;
+            newState.monster.nextSpawnTime = nowMs + randomMinutes * 60 * 1000;
+            newState.monster.autoRepelledByGuard = true;
+            stateChanged = true;
+          } else if (nowMs >= newState.monster.activeMonster.expiresAt) {
             const type = newState.monster.activeMonster.id;
             if (type === 'goblin' || type === 'crawler' || type === 'drake') {
               const newOres = { ...newState.ores };
@@ -284,30 +311,39 @@ export const GameProvider = ({ children }) => {
     clickTimestamps.current.push(now);
 
     setState(s => {
-      const premiumBonus = Math.min(s.storageExpanders || 0, 2) * 100;
-      const capacity = UPGRADES.storage.effect(s.upgrades.storage) + premiumBonus;
+      // Storage cap (storageExpanders dihapus)
+      const capacity = UPGRADES.storage.effect(s.upgrades.storage);
       const currentTotal = Object.values(s.ores).reduce((a, b) => a + Math.floor(b), 0);
-
-      // KODE PERBAIKAN: Hitung sisa kapasitas ketat untuk klik manual
-      const spaceLeft = capacity - currentTotal;
-      if (spaceLeft <= 0) return s; // Tolak mentah-mentah jika sudah penuh
+      const spaceLeft = Math.max(0, capacity - currentTotal);
+      if (spaceLeft <= 0) return s;
 
       let finalAmount = amount;
       if (s.turboMinerExpiry && Date.now() < s.turboMinerExpiry) finalAmount *= 2;
-
-      // Pangkas nilai ketukan koin agar pas dengan batas kapasitas maksimal gudang
       finalAmount = Math.min(finalAmount, spaceLeft);
 
       const yields = calculateMiningYield(finalAmount, s.activeAreaId || 'area_1');
       const newOres = { ...s.ores };
-      Object.keys(yields).forEach(k => newOres[k] += yields[k]);
 
-      return {
-        ...s,
-        ores: newOres
-      };
+      // Kumpulkan ore yang benar-benar bertambah untuk animasi popup
+      const earnedOres = [];
+      Object.keys(yields).forEach(k => {
+        if (yields[k] > 0) {
+          newOres[k] += yields[k];
+          earnedOres.push({ k, v: yields[k] });
+        }
+      });
+
+      // Trigger animasi floating number (ambil 1-2 ore terbesar)
+      earnedOres
+        .sort((a, b) => b.v - a.v)
+        .slice(0, 2)
+        .forEach(({ k, v }) => {
+          if (Math.floor(v) > 0) triggerFloatingPopup(`+${Math.floor(v)} ${k}`, 'ore');
+        });
+
+      return { ...s, ores: newOres };
     });
-  }, [calculateMiningYield]);
+  }, [calculateMiningYield, triggerFloatingPopup]);
 
   const clearUpgradeError = useCallback(() => setUpgradeError(null), []);
 
@@ -338,7 +374,7 @@ export const GameProvider = ({ children }) => {
         }
       }
 
-      const cost = Math.floor(upgrade.baseCost * Math.pow(1.5, currentLevel));
+      const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier || 1.5, currentLevel));
 
       if (s.coins >= cost) {
         setUpgradeError(null);
@@ -532,6 +568,8 @@ export const GameProvider = ({ children }) => {
     state,
     offlineEarnings,
     upgradeError,
+    floatingPopups,
+    triggerFloatingPopup,
     clearUpgradeError,
     manualMine,
     buyUpgrade,

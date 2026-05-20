@@ -10,33 +10,34 @@ export const Market = () => {
     const [timeLeft, setTimeLeft] = useState('');
     const [selectedNpcOrder, setSelectedNpcOrder] = useState(null);
 
-    useEffect(() => {
-        const now = new Date();
-        const lastReset = new Date(state.lastOrderResetTime || 0);
-        
-        const isNewDay = now.getDate() !== lastReset.getDate() ||
-                         now.getMonth() !== lastReset.getMonth() ||
-                         now.getFullYear() !== lastReset.getFullYear();
+    // ORDER COOLDOWN FIX: Refresh setiap 2 jam (bukan setiap hari)
+    const ORDER_COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 jam
 
-        if (isNewDay) {
+    useEffect(() => {
+        const now = Date.now();
+        const lastReset = state.lastOrderResetTime || 0;
+        const shouldRefresh = (now - lastReset) >= ORDER_COOLDOWN_MS || state.orders.length === 0;
+
+        if (shouldRefresh) {
             updateOrders(generateOrders(1));
         }
     }, [state.lastOrderResetTime, updateOrders]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const now = new Date();
-            const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-            const diff = endOfDay - now;
-            
+            const now = Date.now();
+            const lastReset = state.lastOrderResetTime || 0;
+            const nextRefresh = lastReset + ORDER_COOLDOWN_MS;
+            const diff = Math.max(0, nextRefresh - now);
+
             const h = Math.floor(diff / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            setTimeLeft(`${h}h ${m}m ${s}s`);
+
+            setTimeLeft(diff > 0 ? `${h}h ${m}m ${s}s` : 'Segera!');
         }, 1000);
         return () => clearInterval(interval);
-    }, []);
+    }, [state.lastOrderResetTime]);
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(Date.now()), 1000);
@@ -109,11 +110,28 @@ export const Market = () => {
                                         </span>
                                     </div>
                                     <div className="order-reqs">
-                                        {Object.entries(order.requirements).map(([item, amt]) => (
-                                            <span key={item} className={state.items[item] >= amt ? 'has-item' : 'need-item'}>
-                                                {ITEMS[item].icon} {state.items[item] || 0}/{amt}
-                                            </span>
-                                        ))}
+                                        {Object.entries(order.requirements).map(([item, amt]) => {
+                                            const owned = state.items[item] || 0;
+                                            const met = owned >= amt;
+                                            return (
+                                                <span key={item} style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '4px',
+                                                    padding: '5px 10px',
+                                                    borderRadius: '10px',
+                                                    border: '2px solid var(--border-color)',
+                                                    background: met ? 'var(--accent-green)' : '#fde8e8',
+                                                    fontSize: '0.82rem',
+                                                    fontWeight: 800,
+                                                    color: 'var(--text-main)'
+                                                }}>
+                                                    {ITEMS[item].icon}
+                                                    <span>{ITEMS[item].name}</span>
+                                                    <span style={{opacity: 0.7}}>{owned}/{amt}</span>
+                                                </span>
+                                            );
+                                        })}
                                     </div>
                                     <div className="order-reward">
                                         💰 {order.rewardCoins} Coins
@@ -172,10 +190,11 @@ export const Market = () => {
                     {BODYGUARDS.map(guard => {
                         const avgLevel = Math.floor((state.upgrades.miner + state.upgrades.anvil + state.upgrades.furnace + state.upgrades.storage) / 4);
                         const cost = getBodyguardCost(guard.baseCost, avgLevel);
-                        const isActive = state.bodyguard?.activeId === guard.id && state.bodyguard?.expiresAt > currentTime;
+                        const anyGuardActive = state.bodyguard?.expiresAt > currentTime;
+                        const isThisGuardActive = anyGuardActive && state.bodyguard?.activeId === guard.id;
                         
                         return (
-                            <div key={guard.id} className="sell-card" style={{border: isActive ? '2px solid var(--accent-green-dark)' : '2px solid var(--border-color)', opacity: isActive ? 0.7 : 1}}>
+                            <div key={guard.id} className="sell-card" style={{border: isThisGuardActive ? '2px solid var(--accent-green-dark)' : '2px solid var(--border-color)', opacity: anyGuardActive && !isThisGuardActive ? 0.5 : (isThisGuardActive ? 0.7 : 1)}}>
                                 <span className="item-icon">{guard.icon}</span>
                                 <div>
                                     <h4 style={{fontSize: '0.9rem'}}>{guard.name}</h4>
@@ -183,10 +202,10 @@ export const Market = () => {
                                 </div>
                                 <button 
                                     onClick={() => hireBodyguard(guard.id, cost)}
-                                    disabled={isActive || state.coins < cost}
+                                    disabled={anyGuardActive || state.coins < cost}
                                     style={{fontSize: '0.9rem', padding: '6px 12px'}}
                                 >
-                                    {isActive ? 'Sedang Bertugas' : `Sewa (💰 ${cost})`}
+                                    {isThisGuardActive ? 'Bertugas' : (anyGuardActive ? 'Tunggu' : `Sewa (💰 ${cost})`)}
                                 </button>
                             </div>
                         );

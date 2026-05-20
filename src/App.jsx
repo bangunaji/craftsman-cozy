@@ -9,12 +9,86 @@ import EndgameProgress from './components/EndgameProgress';
 import { OfflineEarnings } from './components/OfflineEarnings';
 import { MonsterThreat } from './components/MonsterThreat';
 import { Pickaxe, Hammer, Store as MarketIcon, Factory, Award } from 'lucide-react';
+
+// ── Background Music Player ──────────────────────────────
+const MusicPlayer = () => {
+  const audioRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(() => {
+    return localStorage.getItem('bgm_muted') === 'true';
+  });
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.35;
+    audio.loop = true;
+    audio.muted = isMuted;
+
+    // Autoplay setelah interaksi pertama user (browser policy)
+    const tryPlay = () => {
+      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+      document.removeEventListener('pointerdown', tryPlay);
+    };
+
+    // Langsung coba play (kadang berhasil di mobile)
+    audio.play().then(() => setIsPlaying(true)).catch(() => {
+      document.addEventListener('pointerdown', tryPlay, { once: true });
+    });
+
+    return () => document.removeEventListener('pointerdown', tryPlay);
+  }, []);
+
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const next = !isMuted;
+    setIsMuted(next);
+    audio.muted = next;
+    localStorage.setItem('bgm_muted', String(next));
+    if (!next && !isPlaying) {
+      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+  };
+
+  return (
+    <>
+      <audio ref={audioRef} src="/hearthside_routine.mp3" preload="auto" />
+      <button
+        onClick={toggleMute}
+        title={isMuted ? 'Aktifkan Musik' : 'Matikan Musik'}
+        style={{
+          position: 'fixed',
+          top: '16px',
+          right: '16px',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          background: 'var(--bg-card)',
+          border: '2px solid var(--border-color)',
+          boxShadow: '0 3px 0 0 var(--border-color)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1.1rem',
+          padding: 0,
+          zIndex: 999,
+          cursor: 'pointer',
+          transition: 'transform 0.1s, box-shadow 0.1s'
+        }}
+      >
+        {isMuted ? '🔇' : '🎵'}
+      </button>
+    </>
+  );
+};
+// ─────────────────────────────────────────────────────────
+
 const LoadingScreen = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    // Simulate loading progress
     let currentProgress = 0;
     const interval = setInterval(() => {
       currentProgress += Math.random() * 15;
@@ -26,7 +100,7 @@ const LoadingScreen = ({ onComplete }) => {
         setIsFading(true);
         setTimeout(() => {
           onComplete();
-        }, 600); // Wait for fade out animation
+        }, 600);
       }
     }, 150);
 
@@ -61,7 +135,6 @@ const LoadingScreen = ({ onComplete }) => {
       <h1 style={{ color: 'var(--text-main)', fontSize: '2rem', margin: 0, fontWeight: 900, animation: 'slideUp 0.8s ease-out 0.4s both' }}>Craftsman</h1>
       <p style={{ color: 'var(--text-muted)', fontWeight: 'bold', animation: 'slideUp 0.8s ease-out 0.6s both', marginBottom: '40px' }}>Cozy Evergreen Edition</p>
       
-      {/* Loading Bar Element */}
       <div style={{ width: '60%', maxWidth: '300px', opacity: isFading ? 0 : 1, transition: 'opacity 0.3s' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>
               <span>Memuat...</span>
@@ -96,6 +169,7 @@ function AppContent() {
     <div className="app-container">
       <Inventory />
       <MonsterThreat />
+      <MusicPlayer />
       
       <main className="content-area">
         {activeTab === 'mine' && <MiningArea />}

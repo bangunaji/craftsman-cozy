@@ -55,19 +55,19 @@ export const CraftingTable = () => {
             }
         }
 
-if (maxSlots < 7) {
-    let nextLevelNeeded = 3;
-    if (maxSlots === 3) nextLevelNeeded = 7;
-    if (maxSlots === 4) nextLevelNeeded = 10;
-    if (maxSlots === 5) nextLevelNeeded = 11;
-    if (maxSlots === 6) nextLevelNeeded = 16;
+        if (anvilLevel < 16) {
+            let nextLevelNeeded = 3;
+            if (anvilLevel >= 11) nextLevelNeeded = 16;
+            else if (anvilLevel >= 10) nextLevelNeeded = 11;
+            else if (anvilLevel >= 7) nextLevelNeeded = 10;
+            else if (anvilLevel >= 3) nextLevelNeeded = 7;
 
-    slots.push(
-        <div key="locked-teaser" className="craft-slot locked-slot">
-            <span style={{ fontWeight: 800, color: '#d88978' }}>Slot {maxSlots + 1}: 🔒 Locked — Upgrade Anvil Lv.{nextLevelNeeded}</span>
-        </div>
-    );
-}
+            slots.push(
+                <div key="locked-teaser" className="craft-slot locked-slot">
+                    <span style={{ fontWeight: 800, color: '#d88978' }}>Slot {maxSlots + 1}: 🔒 Locked — Upgrade Anvil Lv.{nextLevelNeeded}</span>
+                </div>
+            );
+        }
 
 return slots;
     };

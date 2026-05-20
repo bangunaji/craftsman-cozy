@@ -1,10 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../game/gameState';
 import { UPGRADES, AREAS } from '../game/gameConfig';
+import { animate } from 'animejs';
+
+// Komponen floating ore label teranimate
+const FloatingOreLabel = ({ text, onDone }) => {
+    const ref = useRef(null);
+    useEffect(() => {
+        if (!ref.current) return;
+        animate(ref.current, {
+            translateY: [-10, -70],
+            opacity: [1, 0],
+            scale: [1.2, 0.8],
+            duration: 1400,
+            ease: 'easeOutCubic',
+            onComplete: onDone
+        });
+    }, [onDone]);
+    return (
+        <span ref={ref} style={{
+            position: 'fixed', top: '45%', left: '50%',
+            transform: 'translateX(-50%)',
+            pointerEvents: 'none', zIndex: 9999,
+            fontWeight: 900, fontSize: '1.1rem',
+            color: '#166534', textShadow: '0 1px 3px rgba(0,0,0,0.3)',
+            background: 'rgba(255,255,255,0.85)', borderRadius: '12px',
+            padding: '4px 12px', border: '2px solid #4ade80',
+            whiteSpace: 'nowrap'
+        }}>
+            🌿 {text}
+        </span>
+    );
+};
 
 export const MiningArea = () => {
-    const { state, manualMine, changeActiveArea } = useGame();
+    const { state, manualMine, changeActiveArea, floatingPopups } = useGame();
     const [clicks, setClicks] = useState([]);
+
 
     const handleMine = (e) => {
         const id = Date.now() + Math.random();
@@ -160,6 +192,11 @@ export const MiningArea = () => {
                     </div>
                 </div>
             )}
+
+            {/* Floating ore popup labels (Anime.js animated) */}
+            {(floatingPopups || []).filter(p => p.type === 'ore').map(popup => (
+                <FloatingOreLabel key={popup.id} text={popup.text} onDone={() => {}} />
+            ))}
         </div>
     );
 };
